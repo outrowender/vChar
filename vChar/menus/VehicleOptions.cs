@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class VehicleOptions
     {
@@ -370,7 +370,7 @@ namespace vMenuClient
             // always allowed
             menu.AddMenuItem(showHealth); // SHOW VEHICLE HEALTH
 
-            if (IsAllowed(Permission.VONoSiren) && !vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_use_els_compatibility_mode)) // DISABLE SIREN
+            if (IsAllowed(Permission.VONoSiren) && !vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_use_els_compatibility_mode)) // DISABLE SIREN
             {
                 menu.AddMenuItem(vehicleNoSiren);
             }

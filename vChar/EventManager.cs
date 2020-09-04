@@ -32,20 +32,20 @@ namespace vCharClient
         public EventManager()
         {
             // Add event handlers.
-            EventHandlers.Add("vMenu:SetAddons", new Action(SetAddons));
-            EventHandlers.Add("vMenu:SetPermissions", new Action<string>(MainMenu.SetPermissions));
-            EventHandlers.Add("vMenu:GoToPlayer", new Action<string>(SummonPlayer));
-            EventHandlers.Add("vMenu:KillMe", new Action<string>(KillMe));
-            EventHandlers.Add("vMenu:Notify", new Action<string>(NotifyPlayer));
-            EventHandlers.Add("vMenu:SetClouds", new Action<float, string>(SetClouds));
-            EventHandlers.Add("vMenu:GoodBye", new Action(GoodBye));
-            EventHandlers.Add("vMenu:SetBanList", new Action<string>(UpdateBanList));
-            EventHandlers.Add("vMenu:ClearArea", new Action<float, float, float>(ClearAreaNearPos));
-            EventHandlers.Add("vMenu:updatePedDecors", new Action(UpdatePedDecors));
+            EventHandlers.Add("vChar:SetAddons", new Action(SetAddons));
+            EventHandlers.Add("vChar:SetPermissions", new Action<string>(MainMenu.SetPermissions));
+            EventHandlers.Add("vChar:GoToPlayer", new Action<string>(SummonPlayer));
+            EventHandlers.Add("vChar:KillMe", new Action<string>(KillMe));
+            EventHandlers.Add("vChar:Notify", new Action<string>(NotifyPlayer));
+            EventHandlers.Add("vChar:SetClouds", new Action<float, string>(SetClouds));
+            EventHandlers.Add("vChar:GoodBye", new Action(GoodBye));
+            EventHandlers.Add("vChar:SetBanList", new Action<string>(UpdateBanList));
+            EventHandlers.Add("vChar:ClearArea", new Action<float, float, float>(ClearAreaNearPos));
+            EventHandlers.Add("vChar:updatePedDecors", new Action(UpdatePedDecors));
             EventHandlers.Add("playerSpawned", new Action(SetAppearanceOnFirstSpawn));
-            EventHandlers.Add("vMenu:GetOutOfCar", new Action<int, int>(GetOutOfCar));
-            EventHandlers.Add("vMenu:PrivateMessage", new Action<string, string>(PrivateMessage));
-            EventHandlers.Add("vMenu:UpdateTeleportLocations", new Action<string>(UpdateTeleportLocations));
+            EventHandlers.Add("vChar:GetOutOfCar", new Action<int, int>(GetOutOfCar));
+            EventHandlers.Add("vChar:PrivateMessage", new Action<string, string>(PrivateMessage));
+            EventHandlers.Add("vChar:UpdateTeleportLocations", new Action<string>(UpdateTeleportLocations));
 
             if (GetSettingsBool(Setting.vmenu_enable_weather_sync))
                 Tick += WeatherSync;
@@ -123,7 +123,7 @@ namespace vCharClient
                         if (!VehicleSpawner.AddonVehicles.ContainsKey(addon))
                             VehicleSpawner.AddonVehicles.Add(addon, (uint)GetHashKey(addon));
                         else
-                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same vehicle name! ({addon}) Please remove duplicate lines!");
+                            Debug.WriteLine($"[vChar] [Error] Your addons.json file contains 2 or more entries with the same vehicle name! ({addon}) Please remove duplicate lines!");
                     }
                 }
 
@@ -135,7 +135,7 @@ namespace vCharClient
                         if (!WeaponOptions.AddonWeapons.ContainsKey(addon))
                             WeaponOptions.AddonWeapons.Add(addon, (uint)GetHashKey(addon));
                         else
-                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same weapon name! ({addon}) Please remove duplicate lines!");
+                            Debug.WriteLine($"[vChar] [Error] Your addons.json file contains 2 or more entries with the same weapon name! ({addon}) Please remove duplicate lines!");
                     }
                 }
 
@@ -147,13 +147,13 @@ namespace vCharClient
                         if (!PlayerAppearance.AddonPeds.ContainsKey(addon))
                             PlayerAppearance.AddonPeds.Add(addon, (uint)GetHashKey(addon));
                         else
-                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same ped name! ({addon}) Please remove duplicate lines!");
+                            Debug.WriteLine($"[vChar] [Error] Your addons.json file contains 2 or more entries with the same ped name! ({addon}) Please remove duplicate lines!");
                     }
                 }
             }
             catch (JsonReaderException ex)
             {
-                Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
+                Debug.WriteLine($"\n\n^1[vChar] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
             }
 
             MainMenu.ConfigOptionsSetupComplete = true;
@@ -225,7 +225,7 @@ namespace vCharClient
                 // Dbg logging
                 Log("done changing weather type");
 
-                TriggerEvent("vMenu:WeatherChangeComplete", GetServerWeather);
+                TriggerEvent("vChar:WeatherChangeComplete", GetServerWeather);
             }
             await Delay(1000);
         }
@@ -279,7 +279,7 @@ namespace vCharClient
         /// </summary>
         private void KillMe(string sourceName)
         {
-            Notify.Alert($"You have been killed by <C>{GetSafePlayerName(sourceName)}</C>~s~ using the ~r~Kill Player~s~ option in vMenu.");
+            Notify.Alert($"You have been killed by <C>{GetSafePlayerName(sourceName)}</C>~s~ using the ~r~Kill Player~s~ option in vChar.");
             SetEntityHealth(Game.PlayerPed.Handle, 0);
         }
 
@@ -377,7 +377,7 @@ namespace vCharClient
         /// <param name="jsonData"></param>
         private void UpdateTeleportLocations(string jsonData)
         {
-            MiscSettings.TpLocations = JsonConvert.DeserializeObject<List<vMenuShared.ConfigManager.TeleportLocation>>(jsonData);
+            MiscSettings.TpLocations = JsonConvert.DeserializeObject<List<vCharShared.ConfigManager.TeleportLocation>>(jsonData);
         }
     }
 }

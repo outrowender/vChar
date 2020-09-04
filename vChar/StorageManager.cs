@@ -9,10 +9,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
 
     public static class StorageManager
@@ -144,7 +144,7 @@ namespace vMenuClient
                     string json = JsonConvert.SerializeObject(vehicleInfo);
 
                     // log
-                    Log($"[vMenu] Saving!\nName: {saveName}\nVehicle Data: {json}\n");
+                    Log($"[vChar] Saving!\nName: {saveName}\nVehicle Data: {json}\n");
 
                     // save
                     SetResourceKvp(saveName, json);

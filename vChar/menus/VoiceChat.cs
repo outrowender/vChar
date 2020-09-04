@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class VoiceChat
     {

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>vMenu</title>
+    <title>vChar</title>
 </head>
 
 <style>
@@ -134,7 +134,7 @@
                 <div class="column">
                     <form onsubmit="importData()">
                         <div class="group">
-                            <h3>Import vMenu data</h3>
+                            <h3>Import vChar data</h3>
                             <p>
                                 <strong>Warning</strong>: This <em>will</em>
                                 replace any existing data.
@@ -162,7 +162,7 @@
                 <div class="column">
                     <form>
                         <div class="group">
-                            <h3>Export vMenu data</h3>
+                            <h3>Export vChar data</h3>
                             <strong>Note:</strong>
                             <p class="mt">Do not edit the contents of this
                                 export if you don't know what you're doing.
@@ -254,7 +254,7 @@
 
         function postImportData() {
             console.log("posting");
-            fetch(`https://vMenu/importData`, {
+            fetch(`https://vChar/importData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',

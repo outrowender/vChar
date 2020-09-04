@@ -377,7 +377,7 @@ namespace vCharClient
         public static async void QuitGame()
         {
             Notify.Info("The game will exit in 5 seconds.");
-            Debug.WriteLine("Game will be terminated in 5 seconds, because the player used the Quit Game option in vMenu.");
+            Debug.WriteLine("Game will be terminated in 5 seconds, because the player used the Quit Game option in vChar.");
             await BaseScript.Delay(5000);
             ForceSocialClubUpdate(); // bye bye
         }
@@ -712,7 +712,7 @@ namespace vCharClient
                     }
                 }
                 // Kick the player using the specified reason.
-                TriggerServerEvent("vMenu:KickPlayer", player.ServerId, defaultReason);
+                TriggerServerEvent("vChar:KickPlayer", player.ServerId, defaultReason);
                 Log($"Attempting to kick player {player.Name} (server id: {player.ServerId}, client id: {player.Handle}).");
             }
             else
@@ -735,7 +735,7 @@ namespace vCharClient
             {
                 if (forever)
                 {
-                    TriggerServerEvent("vMenu:PermBanPlayer", player.ServerId, banReason);
+                    TriggerServerEvent("vChar:PermBanPlayer", player.ServerId, banReason);
                 }
                 else
                 {
@@ -745,7 +745,7 @@ namespace vCharClient
                         if (double.TryParse(banDurationHours, out double banHours))
                         {
                             if (banHours > 0.0)
-                                TriggerServerEvent("vMenu:TempBanPlayer", player.ServerId, banHours, banReason);
+                                TriggerServerEvent("vChar:TempBanPlayer", player.ServerId, banHours, banReason);
                             else
                                 Notify.Error("You need to enter a ban duration, enter a value ~h~between~h~ 1 and 720!");
                         }
@@ -754,21 +754,21 @@ namespace vCharClient
                             if (int.TryParse(banDurationHours, out int banHoursInt))
                             {
                                 if ((double)banHoursInt > 0.0)
-                                    TriggerServerEvent("vMenu:TempBanPlayer", player.ServerId, (double)banHoursInt, banReason);
+                                    TriggerServerEvent("vChar:TempBanPlayer", player.ServerId, (double)banHoursInt, banReason);
                                 else
                                     Notify.Error("You need to enter a ban duration, enter a value ~h~between~h~ 1 and 720!");
                             }
                             else
                             {
                                 Notify.Error(CommonErrors.InvalidInput);
-                                TriggerEvent("chatMessage", $"[vMenu] The input is invalid or you cancelled the action, please try again.");
+                                TriggerEvent("chatMessage", $"[vChar] The input is invalid or you cancelled the action, please try again.");
                             }
                         }
                     }
                     else
                     {
                         Notify.Error(CommonErrors.InvalidInput);
-                        TriggerEvent("chatMessage", $"[vMenu] The input is invalid or you cancelled the action, please try again.");
+                        TriggerEvent("chatMessage", $"[vChar] The input is invalid or you cancelled the action, please try again.");
                     }
 
                 }
@@ -776,7 +776,7 @@ namespace vCharClient
             else
             {
                 Notify.Error(CommonErrors.InvalidInput);
-                TriggerEvent("chatMessage", $"[vMenu] The input is invalid or you cancelled the action, please try again.");
+                TriggerEvent("chatMessage", $"[vChar] The input is invalid or you cancelled the action, please try again.");
             }
         }
         #endregion
@@ -786,7 +786,7 @@ namespace vCharClient
         /// Kill player
         /// </summary>
         /// <param name="player"></param>
-        public static void KillPlayer(Player player) => TriggerServerEvent("vMenu:KillPlayer", player.ServerId);
+        public static void KillPlayer(Player player) => TriggerServerEvent("vChar:KillPlayer", player.ServerId);
 
         /// <summary>
         /// Kill yourself.
@@ -901,7 +901,7 @@ namespace vCharClient
         /// Summon player.
         /// </summary>
         /// <param name="player"></param>
-        public static void SummonPlayer(Player player) => TriggerServerEvent("vMenu:SummonPlayer", player.ServerId);
+        public static void SummonPlayer(Player player) => TriggerServerEvent("vChar:SummonPlayer", player.ServerId);
         #endregion
 
         #region Spectate function
@@ -1148,7 +1148,7 @@ namespace vCharClient
                     // Otherwise
                     else
                     {
-                        if (!vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_keep_spawned_vehicles_persistent))
+                        if (!vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_keep_spawned_vehicles_persistent))
                         {
                             // Set the vehicle to be no longer needed. This will make the game engine decide when it should be removed (when all players get too far away).
                             SetEntityAsMissionEntity(_previousVehicle.Handle, false, false);
@@ -1728,7 +1728,7 @@ namespace vCharClient
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
-        //public static bool IsAllowed(vMenuShared.PermissionsManager.Permission permission) => vMenuShared.PermissionsManager.IsAllowed(permission);//PermissionsManager.IsAllowed(permission);
+        //public static bool IsAllowed(vCharShared.PermissionsManager.Permission permission) => vCharShared.PermissionsManager.IsAllowed(permission);//PermissionsManager.IsAllowed(permission);
         #endregion
 
         #region Play Scenarios
@@ -1847,13 +1847,13 @@ namespace vCharClient
         /// <param name="newWeather">The new weather type.</param>
         /// <param name="blackout">Manual blackout mode enabled/disabled.</param>
         /// <param name="dynamicChanges">Dynamic weather changes enabled/disabled.</param>
-        public static void UpdateServerWeather(string newWeather, bool blackout, bool dynamicChanges) => TriggerServerEvent("vMenu:UpdateServerWeather", newWeather, blackout, dynamicChanges);
+        public static void UpdateServerWeather(string newWeather, bool blackout, bool dynamicChanges) => TriggerServerEvent("vChar:UpdateServerWeather", newWeather, blackout, dynamicChanges);
 
         /// <summary>
         /// Modify the clouds for everyone. If removeClouds is true, then remove all clouds. If it's false, then randomize the clouds.
         /// </summary>
         /// <param name="removeClouds">Removes the clouds from the sky if true, otherwise randomizes the clouds type for all players.</param>
-        public static void ModifyClouds(bool removeClouds) => TriggerServerEvent("vMenu:UpdateServerWeatherCloudsType", removeClouds);
+        public static void ModifyClouds(bool removeClouds) => TriggerServerEvent("vChar:UpdateServerWeatherCloudsType", removeClouds);
         #endregion
 
         #region Time Sync
@@ -1875,7 +1875,7 @@ namespace vCharClient
             {
                 realMinutes = 0;
             }
-            TriggerServerEvent("vMenu:UpdateServerTime", realHours, realMinutes, freezeTime);
+            TriggerServerEvent("vChar:UpdateServerTime", realHours, realMinutes, freezeTime);
         }
         #endregion
 
@@ -2183,7 +2183,7 @@ namespace vCharClient
 
                 // Try to save the data, and save the result in a variable.
                 bool saveSuccessful;
-                if (name == "vMenu_tmp_saved_ped")
+                if (name == "vChar_tmp_saved_ped")
                 {
                     saveSuccessful = StorageManager.SavePedInfo(name, data, true);
                 }
@@ -2192,7 +2192,7 @@ namespace vCharClient
                     saveSuccessful = StorageManager.SavePedInfo("ped_" + name, data, overrideExistingPed);
                 }
 
-                //if (name != "vMenu_tmp_saved_ped") // only send a notification if the save wasn't triggered because the player died.
+                //if (name != "vChar_tmp_saved_ped") // only send a notification if the save wasn't triggered because the player died.
                 //{
                 //    // If the save was successfull.
                 //    if (saveSuccessful)
@@ -2224,7 +2224,7 @@ namespace vCharClient
         /// <param name="savedName">The ped saved name</param>
         public static async void LoadSavedPed(string savedName, bool restoreWeapons)
         {
-            if (savedName != "vMenu_tmp_saved_ped")
+            if (savedName != "vChar_tmp_saved_ped")
             {
                 PedInfo pi = StorageManager.GetSavedPedInfo("ped_" + savedName);
                 Log(JsonConvert.SerializeObject(pi));
@@ -2235,7 +2235,7 @@ namespace vCharClient
                 PedInfo pi = StorageManager.GetSavedPedInfo(savedName);
                 Log(JsonConvert.SerializeObject(pi));
                 await SetPlayerSkin(pi.model, pi, restoreWeapons);
-                DeleteResourceKvp("vMenu_tmp_saved_ped");
+                DeleteResourceKvp("vChar_tmp_saved_ped");
             }
 
         }
@@ -2246,7 +2246,7 @@ namespace vCharClient
         /// <returns></returns>
         public static bool IsTempPedSaved()
         {
-            if (!string.IsNullOrEmpty(GetResourceKvpString("vMenu_tmp_saved_ped")))
+            if (!string.IsNullOrEmpty(GetResourceKvpString("vChar_tmp_saved_ped")))
             {
                 return true;
             }
@@ -2365,7 +2365,7 @@ namespace vCharClient
 
         #region Log Function
         /// <summary>
-        /// Print data to the console and save it to the CitizenFX.log file. Only when vMenu debugging mode is enabled.
+        /// Print data to the console and save it to the CitizenFX.log file. Only when vChar debugging mode is enabled.
         /// </summary>
         /// <param name="data"></param>
         public static void Log(string data)
@@ -3078,7 +3078,7 @@ namespace vCharClient
             {
                 if (!(sent && source == Game.Player.ServerId.ToString()))
                 {
-                    TriggerServerEvent("vMenu:PmsDisabled", source);
+                    TriggerServerEvent("vChar:PmsDisabled", source);
                 }
                 return;
             }
@@ -3258,12 +3258,12 @@ namespace vCharClient
                 Notify.Error(CommonErrors.InvalidInput);
                 return;
             }
-            if (vMenuShared.ConfigManager.GetTeleportLocationsData().Any(loc => loc.name == locationName))
+            if (vCharShared.ConfigManager.GetTeleportLocationsData().Any(loc => loc.name == locationName))
             {
                 Notify.Error("This location name is already used, please use a different name.");
                 return;
             }
-            TriggerServerEvent("vMenu:SaveTeleportLocation", JsonConvert.SerializeObject(new vMenuShared.ConfigManager.TeleportLocation(locationName, pos, heading)));
+            TriggerServerEvent("vChar:SaveTeleportLocation", JsonConvert.SerializeObject(new vCharShared.ConfigManager.TeleportLocation(locationName, pos, heading)));
             Notify.Success("The location was successfully saved.");
         }
         #endregion

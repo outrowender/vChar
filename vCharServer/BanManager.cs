@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using System.Text.RegularExpressions;
-using static vMenuServer.DebugLog;
+using static vCharServer.DebugLog;
 
-namespace vMenuServer
+namespace vCharServer
 {
     public class BanManager : BaseScript
     {
@@ -47,11 +47,11 @@ namespace vMenuServer
         /// </summary>
         public BanManager()
         {
-            EventHandlers.Add("vMenu:TempBanPlayer", new Action<Player, int, double, string>(BanPlayer));
-            EventHandlers.Add("vMenu:PermBanPlayer", new Action<Player, int, string>(BanPlayer));
+            EventHandlers.Add("vChar:TempBanPlayer", new Action<Player, int, double, string>(BanPlayer));
+            EventHandlers.Add("vChar:PermBanPlayer", new Action<Player, int, string>(BanPlayer));
             EventHandlers.Add("playerConnecting", new Action<Player, string, CallbackDelegate>(CheckForBans));
-            EventHandlers.Add("vMenu:RequestPlayerUnban", new Action<Player, string>(RemoveBanRecord));
-            EventHandlers.Add("vMenu:RequestBanList", new Action<Player>(SendBanList));
+            EventHandlers.Add("vChar:RequestPlayerUnban", new Action<Player, string>(RemoveBanRecord));
+            EventHandlers.Add("vChar:RequestBanList", new Action<Player>(SendBanList));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace vMenuServer
         {
             Log("Updating player with new banlist.\n");
             string data = JsonConvert.SerializeObject(GetBanList()).ToString();
-            source.TriggerEvent("vMenu:SetBanList", data);
+            source.TriggerEvent("vChar:SetBanList", data);
         }
 
         private static List<BanRecord> cachedBansList = new List<BanRecord>();
@@ -147,13 +147,13 @@ namespace vMenuServer
             // Perm banned.
             if (record.bannedUntil.Year >= 3000)
             {
-                kickCallback($"You have been permanently banned from this server. Banned by: {record.bannedBy}. Ban reason: {record.banReason}. Additional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
+                kickCallback($"You have been permanently banned from this server. Banned by: {record.bannedBy}. Ban reason: {record.banReason}. Additional information: {vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
                 CancelEvent();
             }
             // Temp banned
             else
             {
-                kickCallback($"You are banned from this server. Ban time remaining: {GetRemainingTimeMessage(record.bannedUntil.Subtract(DateTime.Now))}. Additional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
+                kickCallback($"You are banned from this server. Ban time remaining: {GetRemainingTimeMessage(record.bannedUntil.Subtract(DateTime.Now))}. Additional information: {vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
                 CancelEvent();
             }
         }
@@ -178,14 +178,14 @@ namespace vMenuServer
         /// <param name="banReason">Reason for the ban.</param>
         private void BanPlayer([FromSource] Player source, int targetPlayer, double banDurationHours, string banReason)
         {
-            if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.TempBan") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything") || IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All"))
+            if (IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.TempBan") || IsPlayerAceAllowed(source.Handle, "vChar.Everything") || IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.All"))
             {
                 Log("Source player is allowed to ban others.", LogLevel.info);
                 Player target = Players[targetPlayer];
                 if (target != null)
                 {
                     Log("Target player is not null so moving on.", LogLevel.info);
-                    if (!IsPlayerAceAllowed(target.Handle, "vMenu.DontBanMe"))
+                    if (!IsPlayerAceAllowed(target.Handle, "vChar.DontBanMe"))
                     {
                         Log("Target player (Player) does not have the 'dont ban me' permission, so we can continue to ban them.", LogLevel.info);
                         var banduration = (banDurationHours > 0 ?
@@ -205,22 +205,22 @@ namespace vMenuServer
                         Log("Ban record created.", LogLevel.info);
                         BanLog($"A new ban record has been added. Player: '{ban.playerName}' was banned by " +
                             $"'{ban.bannedBy}' for '{ban.banReason}' until '{ban.bannedUntil}'.");
-                        TriggerEvent("vMenu:BanSuccessful", JsonConvert.SerializeObject(ban).ToString());
+                        TriggerEvent("vChar:BanSuccessful", JsonConvert.SerializeObject(ban).ToString());
 
                         string timeRemaining = GetRemainingTimeMessage(ban.bannedUntil.Subtract(DateTime.Now));
-                        target.Drop($"You are banned from this server. Ban time remaining: {timeRemaining}. Banned by: {ban.bannedBy}. Ban reason: {ban.banReason}. Aditional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
-                        source.TriggerEvent("vMenu:Notify", "~g~Target player successfully banned.");
+                        target.Drop($"You are banned from this server. Ban time remaining: {timeRemaining}. Banned by: {ban.bannedBy}. Ban reason: {ban.banReason}. Aditional information: {vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
+                        source.TriggerEvent("vChar:Notify", "~g~Target player successfully banned.");
                     }
                     else
                     {
                         Log("Player could not be banned because he is exempt from being banned.", LogLevel.error);
-                        source.TriggerEvent("vMenu:Notify", "~r~Could not ban this player, they are exempt from being banned.");
+                        source.TriggerEvent("vChar:Notify", "~r~Could not ban this player, they are exempt from being banned.");
                     }
                 }
                 else
                 {
                     Log("Player is invalid (no longer online) and therefor the banning has failed.", LogLevel.error);
-                    source.TriggerEvent("vMenu:Notify", "Could not ban this player because they already left the server.");
+                    source.TriggerEvent("vChar:Notify", "Could not ban this player because they already left the server.");
                 }
             }
             else
@@ -296,7 +296,7 @@ namespace vMenuServer
         {
             if (source != null && !string.IsNullOrEmpty(source.Name) && source.Name.ToLower() != "**invalid**" && source.Name.ToLower() != "** invalid **")
             {
-                if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Unban") || IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything"))
+                if (IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.Unban") || IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.All") || IsPlayerAceAllowed(source.Handle, "vChar.Everything"))
                 {
                     var banRecord = GetBanList().Find((ban) =>
                     {
@@ -308,18 +308,18 @@ namespace vMenuServer
 
                         BanLog($"The following ban record has been removed (player unbanned). " +
                             $"[Player: {banRecord.playerName} was banned by {banRecord.bannedBy} for {banRecord.banReason} until {banRecord.bannedUntil}.]");
-                        TriggerEvent("vMenu:UnbanSuccessful", JsonConvert.SerializeObject(banRecord).ToString());
+                        TriggerEvent("vChar:UnbanSuccessful", JsonConvert.SerializeObject(banRecord).ToString());
                     }
                 }
                 else
                 {
                     BanCheater(source);
-                    Debug.WriteLine($"^3[vMenu] [WARNING] [BAN] ^7Player {JsonConvert.SerializeObject(source)} did not have the required permissions, but somehow triggered the unban event. Missing permissions: vMenu.OnlinePlayers.Unban (is ace allowed: {IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Unban")})\n");
+                    Debug.WriteLine($"^3[vChar] [WARNING] [BAN] ^7Player {JsonConvert.SerializeObject(source)} did not have the required permissions, but somehow triggered the unban event. Missing permissions: vChar.OnlinePlayers.Unban (is ace allowed: {IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.Unban")})\n");
                 }
             }
             else
             {
-                Debug.WriteLine("^3[vMenu] [WARNING] ^7The unban event was triggered, but no valid source was provided. Nobody has been unbanned.");
+                Debug.WriteLine("^3[vChar] [WARNING] ^7The unban event was triggered, but no valid source was provided. Nobody has been unbanned.");
             }
         }
 
@@ -329,30 +329,30 @@ namespace vMenuServer
         /// <param name="source"></param>
         public static void BanCheater(Player source)
         {
-            bool enabled = vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_auto_ban_cheaters);
+            bool enabled = vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_auto_ban_cheaters);
             if (enabled)
             {
-                string reason = vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_auto_ban_cheaters_ban_message);
+                string reason = vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_auto_ban_cheaters_ban_message);
 
                 if (string.IsNullOrEmpty(reason))
                 {
-                    reason = $"You have been automatically banned. If you believe this was done by error, please contact the server owner for support. Aditional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.";
+                    reason = $"You have been automatically banned. If you believe this was done by error, please contact the server owner for support. Aditional information: {vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.";
                 }
                 var ban = new BanRecord(
                     GetSafePlayerName(source.Name),
                     source.Identifiers.ToList(),
                     new DateTime(3000, 1, 1),
                     reason,
-                    "vMenu Auto Ban",
+                    "vChar Auto Ban",
                     Guid.NewGuid()
                 );
 
                 AddBan(ban);
 
-                TriggerEvent("vMenu:BanCheaterSuccessful", JsonConvert.SerializeObject(ban).ToString());
+                TriggerEvent("vChar:BanCheaterSuccessful", JsonConvert.SerializeObject(ban).ToString());
                 BanLog($"A cheater has been banned. {JsonConvert.SerializeObject(ban)}");
 
-                source.TriggerEvent("vMenu:GoodBye"); // this is much more fun than just kicking them.
+                source.TriggerEvent("vChar:GoodBye"); // this is much more fun than just kicking them.
                 Log("A cheater has been banned because they attempted to trigger a fake event.", LogLevel.warning);
             }
         }
@@ -384,7 +384,7 @@ namespace vMenuServer
         /// <param name="banActionMessage"></param>
         public static void BanLog(string banActionMessage)
         {
-            if (vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_log_ban_actions))
+            if (vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_log_ban_actions))
             {
                 string file = LoadResourceFile(GetCurrentResourceName(), "vmenu.log") ?? "";
                 DateTime date = DateTime.Now;
@@ -396,7 +396,7 @@ namespace vMenuServer
                     (date.Second < 10 ? "0" : "") + date.Second;
                 string outputFile = file + $"[\t{formattedDate}\t] [BAN ACTION] {banActionMessage}\n";
                 SaveResourceFile(GetCurrentResourceName(), "vmenu.log", outputFile, -1);
-                Debug.WriteLine("^2[vMenu] [SUCCESS] [BAN]^7 " + banActionMessage);
+                Debug.WriteLine("^2[vChar] [SUCCESS] [BAN]^7 " + banActionMessage);
             }
         }
 

@@ -5,10 +5,10 @@ using MenuAPI;
 using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class MiscSettings
     {
@@ -50,15 +50,15 @@ namespace vMenuClient
 
         // keybind states
         public bool KbTpToWaypoint { get; private set; } = UserDefaults.KbTpToWaypoint;
-        public int KbTpToWaypointKey { get; } = vMenuShared.ConfigManager.GetSettingsInt(vMenuShared.ConfigManager.Setting.vmenu_teleport_to_wp_keybind_key) != -1
-            ? vMenuShared.ConfigManager.GetSettingsInt(vMenuShared.ConfigManager.Setting.vmenu_teleport_to_wp_keybind_key)
+        public int KbTpToWaypointKey { get; } = vCharShared.ConfigManager.GetSettingsInt(vCharShared.ConfigManager.Setting.vmenu_teleport_to_wp_keybind_key) != -1
+            ? vCharShared.ConfigManager.GetSettingsInt(vCharShared.ConfigManager.Setting.vmenu_teleport_to_wp_keybind_key)
             : 168; // 168 (F7 by default)
         public bool KbDriftMode { get; private set; } = UserDefaults.KbDriftMode;
         public bool KbRecordKeys { get; private set; } = UserDefaults.KbRecordKeys;
         public bool KbRadarKeys { get; private set; } = UserDefaults.KbRadarKeys;
         public bool KbPointKeys { get; private set; } = UserDefaults.KbPointKeys;
 
-        internal static List<vMenuShared.ConfigManager.TeleportLocation> TpLocations = new List<vMenuShared.ConfigManager.TeleportLocation>();
+        internal static List<vCharShared.ConfigManager.TeleportLocation> TpLocations = new List<vCharShared.ConfigManager.TeleportLocation>();
 
         /// <summary>
         /// Creates the menu.
@@ -102,7 +102,7 @@ namespace vMenuClient
             MenuItem backBtn = new MenuItem("Back");
 
             // Create the menu items.
-            MenuCheckboxItem rightAlignMenu = new MenuCheckboxItem("Right Align Menu", "If you want vMenu to appear on the left side of your screen, disable this option. This option will be saved immediately. You don't need to click save preferences.", MiscRightAlignMenu);
+            MenuCheckboxItem rightAlignMenu = new MenuCheckboxItem("Right Align Menu", "If you want vChar to appear on the left side of your screen, disable this option. This option will be saved immediately. You don't need to click save preferences.", MiscRightAlignMenu);
             MenuCheckboxItem disablePms = new MenuCheckboxItem("Disable Private Messages", "Prevent others from sending you a private message via the Online Players menu. This also prevents you from sending messages to other players.", MiscDisablePrivateMessages);
             MenuCheckboxItem disableControllerKey = new MenuCheckboxItem("Disable Controller Support", "This disables the controller menu toggle key. This does NOT disable the navigation buttons.", MiscDisableControllerSupport);
             MenuCheckboxItem speedKmh = new MenuCheckboxItem("Show Speed KM/H", "Show a speedometer on your screen indicating your speed in KM/h.", ShowSpeedoKmh);
@@ -112,7 +112,7 @@ namespace vMenuClient
             MenuCheckboxItem hideHud = new MenuCheckboxItem("Hide Hud", "Hide all hud elements.", HideHud);
             MenuCheckboxItem showLocation = new MenuCheckboxItem("Location Display", "Shows your current location and heading, as well as the nearest cross road. Similar like PLD. ~r~Warning: This feature (can) take(s) up to -4.6 FPS when running at 60 Hz.", ShowLocation) { LeftIcon = MenuItem.Icon.WARNING };
             MenuCheckboxItem drawTime = new MenuCheckboxItem("Show Time On Screen", "Shows you the current time on screen.", DrawTimeOnScreen);
-            MenuItem saveSettings = new MenuItem("Save Personal Settings", "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.")
+            MenuItem saveSettings = new MenuItem("Save Personal Settings", "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vChar.")
             {
                 RightIcon = MenuItem.Icon.TICK
             };
@@ -362,7 +362,7 @@ namespace vMenuClient
 
                     teleportMenu.OnItemSelect += async (sender, item, index) =>
                     {
-                        if (item.ItemData is vMenuShared.ConfigManager.TeleportLocation tl)
+                        if (item.ItemData is vCharShared.ConfigManager.TeleportLocation tl)
                         {
                             await TeleportToCoords(tl.coordinates, true);
                             SetEntityHeading(Game.PlayerPed.Handle, tl.heading);
@@ -396,7 +396,7 @@ namespace vMenuClient
             }
 
             // model outlines
-            if (!vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_disable_entity_outlines_tool))
+            if (!vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_disable_entity_outlines_tool))
             {
                 developerToolsMenu.AddMenuItem(vehModelDimensions);
                 developerToolsMenu.AddMenuItem(propModelDimensions);
@@ -453,7 +453,7 @@ namespace vMenuClient
                 if (item == clearArea)
                 {
                     var pos = Game.PlayerPed.Position;
-                    BaseScript.TriggerServerEvent("vMenu:ClearArea", pos.X, pos.Y, pos.Z);
+                    BaseScript.TriggerServerEvent("vChar:ClearArea", pos.X, pos.Y, pos.Z);
                 }
             };
 
@@ -762,7 +762,7 @@ namespace vMenuClient
             {
                 try
                 {
-                    foreach (var bl in vMenuShared.ConfigManager.GetLocationBlipsData())
+                    foreach (var bl in vCharShared.ConfigManager.GetLocationBlipsData())
                     {
                         int blipID = AddBlipForCoord(bl.coordinates.X, bl.coordinates.Y, bl.coordinates.Z);
                         SetBlipSprite(blipID, bl.spriteID);
@@ -778,7 +778,7 @@ namespace vMenuClient
                 }
                 catch (JsonReaderException ex)
                 {
-                    Debug.Write($"\n\n[vMenu] An error occurred while loading the locations.json file. Please contact the server owner to resolve this.\nWhen contacting the owner, provide the following error details:\n{ex.Message}.\n\n\n");
+                    Debug.Write($"\n\n[vChar] An error occurred while loading the locations.json file. Please contact the server owner to resolve this.\nWhen contacting the owner, provide the following error details:\n{ex.Message}.\n\n\n");
                 }
             }
             else

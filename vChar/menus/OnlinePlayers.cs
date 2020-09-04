@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class OnlinePlayers
     {
@@ -115,7 +115,7 @@ namespace vMenuClient
                         }
                         else
                         {
-                            TriggerServerEvent("vMenu:SendMessageToPlayer", currentPlayer.ServerId, message);
+                            TriggerServerEvent("vChar:SendMessageToPlayer", currentPlayer.ServerId, message);
                             PrivateMessage(currentPlayer.ServerId.ToString(), message, true);
                         }
                     }
@@ -218,7 +218,7 @@ namespace vMenuClient
                         Notify.Custom($"~y~<C>{GetSafePlayerName(currentPlayer.Name)}</C>~g~'s Identifiers: {ids}", false);
                         return data;
                     };
-                    BaseScript.TriggerServerEvent("vMenu:GetPlayerIdentifiers", currentPlayer.ServerId, CallbackFunction);
+                    BaseScript.TriggerServerEvent("vChar:GetPlayerIdentifiers", currentPlayer.ServerId, CallbackFunction);
                 }
                 // kick button
                 else if (item == kick)

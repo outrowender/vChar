@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
+using static vCharClient.CommonFunctions;
 
-namespace vMenuClient
+namespace vCharClient
 {
     #region Error Templates
     /// <summary>
@@ -161,7 +161,7 @@ namespace vMenuClient
         public static void Error(string message, bool blink = true, bool saveToBrief = true)
         {
             Custom("~r~~h~Error~h~~s~: " + message, blink, saveToBrief);
-            Debug.Write("[vMenu] [ERROR] " + message + "\n");
+            Debug.Write("[vChar] [ERROR] " + message + "\n");
         }
 
         /// <summary>

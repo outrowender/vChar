@@ -102,7 +102,7 @@ namespace vCharClient
                         if (!kvp.StartsWith("settings_") && !kvp.StartsWith("vmenu") && !kvp.StartsWith("veh_") && !kvp.StartsWith("ped_") && !kvp.StartsWith("mp_ped_"))
                         {
                             DeleteResourceKvp(kvp);
-                            Debug.WriteLine($"[vMenu] [cleanup id: 1] Removed unused (old) KVP: {kvp}.");
+                            Debug.WriteLine($"[vChar] [cleanup id: 1] Removed unused (old) KVP: {kvp}.");
                         }
                     }
                     if (currentCleanupVersion == 2)
@@ -110,11 +110,11 @@ namespace vCharClient
                         if (kvp.StartsWith("mp_char"))
                         {
                             DeleteResourceKvp(kvp);
-                            Debug.WriteLine($"[vMenu] [cleanup id: 2] Removed unused (old) KVP: {kvp}.");
+                            Debug.WriteLine($"[vChar] [cleanup id: 2] Removed unused (old) KVP: {kvp}.");
                         }
                     }
                 }
-                Debug.WriteLine("[vMenu] Cleanup of old unused KVP items completed.");
+                Debug.WriteLine("[vChar] Cleanup of old unused KVP items completed.");
             }
             #endregion
 
@@ -156,7 +156,7 @@ namespace vCharClient
                             // Set discord rich precense once, allowing it to be overruled by other resources once those load.
                             if (DebugMode)
                             {
-                                SetRichPresence($"Debugging vMenu {Version}!");
+                                SetRichPresence($"Debugging vChar {Version}!");
                             }
                             else
                             {
@@ -171,8 +171,8 @@ namespace vCharClient
                         else if (args[0].ToString().ToLower() == "dump")
                         {
                             Notify.Info("A full config dump will be made to the console. Check the log file. This can cause lag!");
-                            Debug.WriteLine("\n\n\n########################### vMenu ###########################");
-                            Debug.WriteLine($"Running vMenu Version: {Version}, Experimental features: {EnableExperimentalFeatures}, Debug mode: {DebugMode}.");
+                            Debug.WriteLine("\n\n\n########################### vChar ###########################");
+                            Debug.WriteLine($"Running vChar Version: {Version}, Experimental features: {EnableExperimentalFeatures}, Debug mode: {DebugMode}.");
                             Debug.WriteLine("\nDumping a list of all KVPs:");
                             int handle = StartFindKvp("");
                             List<string> names = new List<string>();
@@ -251,13 +251,13 @@ namespace vCharClient
                                 settings.Add(a.ToString(), GetSettingsString((Setting)a));
                             }
                             Debug.WriteLine(@JsonConvert.SerializeObject(settings, Formatting.None));
-                            Debug.WriteLine("\nEnd of vMenu dump!");
-                            Debug.WriteLine("\n########################### vMenu ###########################");
+                            Debug.WriteLine("\nEnd of vChar dump!");
+                            Debug.WriteLine("\n########################### vChar ###########################");
                         }
                     }
                     else
                     {
-                        Notify.Custom($"vMenu is currently running version: {Version}.");
+                        Notify.Custom($"vChar is currently running version: {Version}.");
                     }
                 }
             }), false);
@@ -265,12 +265,12 @@ namespace vCharClient
             // Set discord rich precense once, allowing it to be overruled by other resources once those load.
             if (DebugMode)
             {
-                SetRichPresence($"Debugging vMenu {Version}!");
+                SetRichPresence($"Debugging vChar {Version}!");
             }
 
             if (GetCurrentResourceName() != "vChar")
             {
-                Exception InvalidNameException = new Exception("\r\n\r\n[vMenu] INSTALLATION ERROR!\r\nThe name of the resource is not valid. Please change the folder name from '" + GetCurrentResourceName() + "' to 'vMenu' (case sensitive) instead!\r\n\r\n\r\n");
+                Exception InvalidNameException = new Exception("\r\n\r\n[vChar] INSTALLATION ERROR!\r\nThe name of the resource is not valid. Please change the folder name from '" + GetCurrentResourceName() + "' to 'vChar' (case sensitive) instead!\r\n\r\n\r\n");
                 try
                 {
                     throw InvalidNameException;
@@ -279,7 +279,7 @@ namespace vCharClient
                 {
                     Log(e.Message);
                 }
-                TriggerEvent("chatMessage", "^3IMPORTANT: vMenu IS NOT SETUP CORRECTLY. PLEASE CHECK THE SERVER LOG FOR MORE INFO.");
+                TriggerEvent("chatMessage", "^3IMPORTANT: vChar IS NOT SETUP CORRECTLY. PLEASE CHECK THE SERVER LOG FOR MORE INFO.");
                 MenuController.MainMenu = null;
                 MenuController.DontOpenAnyMenu = true;
                 MenuController.DisableMenuButtons = true;
@@ -294,9 +294,9 @@ namespace vCharClient
             }
             catch (InvalidTimeZoneException timeEx)
             {
-                Debug.WriteLine($"[vMenu] [Error] Could not set the in-game day, month and year because of an invalid timezone(?).");
-                Debug.WriteLine($"[vMenu] [Error] InvalidTimeZoneException: {timeEx.Message}");
-                Debug.WriteLine($"[vMenu] [Error] vMenu will continue to work normally.");
+                Debug.WriteLine($"[vChar] [Error] Could not set the in-game day, month and year because of an invalid timezone(?).");
+                Debug.WriteLine($"[vChar] [Error] InvalidTimeZoneException: {timeEx.Message}");
+                Debug.WriteLine($"[vChar] [Error] vChar will continue to work normally.");
             }
         }
 
@@ -307,7 +307,7 @@ namespace vCharClient
         /// <param name="dict"></param>
         public static void SetPermissions(string permissionsList)
         {
-            vMenuShared.PermissionsManager.SetPermissions(permissionsList);
+            vCharShared.PermissionsManager.SetPermissions(permissionsList);
 
             VehicleSpawner.allowedCategories = new List<bool>()
             {
@@ -337,7 +337,7 @@ namespace vCharClient
             };
             ArePermissionsSetup = true;
 
-            TriggerServerEvent("vMenu:IsResourceUpToDate");
+            TriggerServerEvent("vChar:IsResourceUpToDate");
         }
         #endregion
 
@@ -371,7 +371,7 @@ namespace vCharClient
                 ClearBrief();
 
                 // Request the permissions data from the server.
-                TriggerServerEvent("vMenu:RequestPermissions");
+                TriggerServerEvent("vChar:RequestPermissions");
 
                 // Wait until the data is received and the player's name is loaded correctly.
                 while (!ConfigOptionsSetupComplete || !PermissionsSetupComplete || Game.Player.Name == "**Invalid**" || Game.Player.Name == "** Invalid **")

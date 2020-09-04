@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using Newtonsoft.Json;
-using static vMenuServer.DebugLog;
-using static vMenuShared.ConfigManager;
-using vMenuShared;
+using static vCharServer.DebugLog;
+using static vCharShared.ConfigManager;
+using vCharShared;
 
-namespace vMenuServer
+namespace vCharServer
 {
 
     public static class DebugLog
@@ -31,22 +31,22 @@ namespace vMenuServer
         {
             if (MainServer.DebugMode || level == LogLevel.error || level == LogLevel.warning)
             {
-                string prefix = "[vMenu] ";
+                string prefix = "[vChar] ";
                 if (level == LogLevel.error)
                 {
-                    prefix = "^1[vMenu] [ERROR]^7 ";
+                    prefix = "^1[vChar] [ERROR]^7 ";
                 }
                 else if (level == LogLevel.info)
                 {
-                    prefix = "^5[vMenu] [INFO]^7 ";
+                    prefix = "^5[vChar] [INFO]^7 ";
                 }
                 else if (level == LogLevel.success)
                 {
-                    prefix = "^2[vMenu] [SUCCESS]^7 ";
+                    prefix = "^2[vChar] [SUCCESS]^7 ";
                 }
                 else if (level == LogLevel.warning)
                 {
-                    prefix = "^3[vMenu] [WARNING]^7 ";
+                    prefix = "^3[vChar] [WARNING]^7 ";
                 }
                 Debug.WriteLine($"{prefix}[DEBUG LOG] {data.ToString()}");
             }
@@ -178,8 +178,8 @@ namespace vMenuServer
             // name check
             if (GetCurrentResourceName() != "vChar")
             {
-                Exception InvalidNameException = new Exception("\r\n\r\n^1[vMenu] INSTALLATION ERROR!\r\nThe name of the resource is not valid. " +
-                    "Please change the folder name from '^3" + GetCurrentResourceName() + "^1' to '^2vMenu^1' (case sensitive) instead!\r\n\r\n\r\n^7");
+                Exception InvalidNameException = new Exception("\r\n\r\n^1[vChar] INSTALLATION ERROR!\r\nThe name of the resource is not valid. " +
+                    "Please change the folder name from '^3" + GetCurrentResourceName() + "^1' to '^2vChar^1' (case sensitive) instead!\r\n\r\n\r\n^7");
                 try
                 {
                     throw InvalidNameException;
@@ -192,7 +192,7 @@ namespace vMenuServer
             else
             {
                 // Add event handlers.
-                EventHandlers.Add("vMenu:GetPlayerIdentifiers", new Action<int, NetworkCallbackDelegate>((TargetPlayer, CallbackFunction) =>
+                EventHandlers.Add("vChar:GetPlayerIdentifiers", new Action<int, NetworkCallbackDelegate>((TargetPlayer, CallbackFunction) =>
                 {
                     List<string> data = new List<string>();
                     Players[TargetPlayer].Identifiers.ToList().ForEach(e =>
@@ -202,7 +202,7 @@ namespace vMenuServer
                     });
                     CallbackFunction(JsonConvert.SerializeObject(data));
                 }));
-                EventHandlers.Add("vMenu:RequestPermissions", new Action<Player>(PermissionsManager.SetPermissionsForPlayer));
+                EventHandlers.Add("vChar:RequestPermissions", new Action<Player>(PermissionsManager.SetPermissionsForPlayer));
 
 
                 // check addons file for errors
@@ -214,13 +214,13 @@ namespace vMenuServer
                 }
                 catch (JsonReaderException ex)
                 {
-                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
+                    Debug.WriteLine($"\n\n^1[vChar] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
                 }
 
                 // check if permissions are setup (correctly)
                 if (!GetSettingsBool(Setting.vmenu_use_permissions))
                 {
-                    Debug.WriteLine("^3[vMenu] [WARNING] vMenu is set up to ignore permissions!\nIf you did this on purpose then you can ignore this warning.\nIf you did not set this on purpose, then you must have made a mistake while setting up vMenu.\nPlease read the vMenu documentation (^5https://docs.vespura.com/vmenu^3).\nMost likely you are not executing the permissions.cfg (correctly).^7");
+                    Debug.WriteLine("^3[vChar] [WARNING] vChar is set up to ignore permissions!\nIf you did this on purpose then you can ignore this warning.\nIf you did not set this on purpose, then you must have made a mistake while setting up vChar.\nPlease read the vChar documentation (^5https://docs.vespura.com/vmenu^3).\nMost likely you are not executing the permissions.cfg (correctly).^7");
                 }
 
                 // Start the loops
@@ -249,7 +249,7 @@ namespace vMenuServer
                         }
                         else
                         {
-                            Players[source].TriggerEvent("chatMessage", $"vMenu Debug mode is now set to: {DebugMode}.");
+                            Players[source].TriggerEvent("chatMessage", $"vChar Debug mode is now set to: {DebugMode}.");
                         }
                         return;
                     }
@@ -280,15 +280,15 @@ namespace vMenuServer
                     {
                         if (args.Count < 2 || string.IsNullOrEmpty(args[1].ToString()))
                         {
-                            Debug.WriteLine("[vMenu] Invalid command syntax. Use 'vmenuserver weather <weatherType>' instead.");
+                            Debug.WriteLine("[vChar] Invalid command syntax. Use 'vmenuserver weather <weatherType>' instead.");
                         }
                         else
                         {
                             string wtype = args[1].ToString().ToUpper();
                             if (WeatherTypes.Contains(wtype))
                             {
-                                TriggerEvent("vMenu:UpdateServerWeather", wtype, BlackoutEnabled, DynamicWeatherEnabled);
-                                Debug.WriteLine($"[vMenu] Weather is now set to: {wtype}");
+                                TriggerEvent("vChar:UpdateServerWeather", wtype, BlackoutEnabled, DynamicWeatherEnabled);
+                                Debug.WriteLine($"[vChar] Weather is now set to: {wtype}");
                             }
                             else if (wtype.ToLower() == "dynamic")
                             {
@@ -296,28 +296,28 @@ namespace vMenuServer
                                 {
                                     if ((args[2].ToString().ToLower() ?? $"{DynamicWeatherEnabled}") == "true")
                                     {
-                                        TriggerEvent("vMenu:UpdateServerWeather", CurrentWeather, BlackoutEnabled, true);
-                                        Debug.WriteLine("[vMenu] Dynamic weather is now turned on.");
+                                        TriggerEvent("vChar:UpdateServerWeather", CurrentWeather, BlackoutEnabled, true);
+                                        Debug.WriteLine("[vChar] Dynamic weather is now turned on.");
                                     }
                                     else if ((args[2].ToString().ToLower() ?? $"{DynamicWeatherEnabled}") == "false")
                                     {
-                                        TriggerEvent("vMenu:UpdateServerWeather", CurrentWeather, BlackoutEnabled, false);
-                                        Debug.WriteLine("[vMenu] Dynamic weather is now turned off.");
+                                        TriggerEvent("vChar:UpdateServerWeather", CurrentWeather, BlackoutEnabled, false);
+                                        Debug.WriteLine("[vChar] Dynamic weather is now turned off.");
                                     }
                                     else
                                     {
-                                        Debug.WriteLine("[vMenu] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
+                                        Debug.WriteLine("[vChar] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
                                     }
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
+                                    Debug.WriteLine("[vChar] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
                                 }
 
                             }
                             else
                             {
-                                Debug.WriteLine("[vMenu] This weather type is not valid!");
+                                Debug.WriteLine("[vChar] This weather type is not valid!");
                             }
                         }
                     }
@@ -327,7 +327,7 @@ namespace vMenuServer
                         {
                             if (args[1].ToString().ToLower() == "freeze")
                             {
-                                TriggerEvent("vMenu:UpdateServerTime", CurrentHours, CurrentMinutes, !FreezeTime);
+                                TriggerEvent("vChar:UpdateServerTime", CurrentHours, CurrentMinutes, !FreezeTime);
                                 Debug.WriteLine($"Time is now {(FreezeTime ? "frozen" : "not frozen")}.");
                             }
                             else
@@ -345,7 +345,7 @@ namespace vMenuServer
                                     {
                                         if (minute >= 0 && minute < 60)
                                         {
-                                            TriggerEvent("vMenu:UpdateServerTime", hour, minute, FreezeTime);
+                                            TriggerEvent("vChar:UpdateServerTime", hour, minute, FreezeTime);
                                             Debug.WriteLine($"Time is now {(hour < 10 ? ("0" + hour.ToString()) : hour.ToString())}:{(minute < 10 ? ("0" + minute.ToString()) : minute.ToString())}.");
                                         }
                                         else
@@ -390,7 +390,7 @@ namespace vMenuServer
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Could not find this player, make sure they are online.");
+                                    Debug.WriteLine("[vChar] Could not find this player, make sure they are online.");
                                     return;
                                 }
                             }
@@ -402,7 +402,7 @@ namespace vMenuServer
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Could not find this player, make sure they are online.");
+                                    Debug.WriteLine("[vChar] Could not find this player, make sure they are online.");
                                     return;
                                 }
                             }
@@ -422,19 +422,19 @@ namespace vMenuServer
                                 );
 
                                 BanManager.AddBan(ban);
-                                BanManager.BanLog($"[vMenu] Player {p.Name}^7 has been banned by Server Console for [{reason}].");
-                                TriggerEvent("vMenu:BanSuccessful", JsonConvert.SerializeObject(ban).ToString());
+                                BanManager.BanLog($"[vChar] Player {p.Name}^7 has been banned by Server Console for [{reason}].");
+                                TriggerEvent("vChar:BanSuccessful", JsonConvert.SerializeObject(ban).ToString());
                                 string timeRemaining = BanManager.GetRemainingTimeMessage(ban.bannedUntil.Subtract(DateTime.Now));
-                                p.Drop($"You are banned from this server. Ban time remaining: {timeRemaining}. Banned by: {ban.bannedBy}. Ban reason: {ban.banReason}. Additional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
+                                p.Drop($"You are banned from this server. Ban time remaining: {timeRemaining}. Banned by: {ban.bannedBy}. Ban reason: {ban.banReason}. Additional information: {vCharShared.ConfigManager.GetSettingsString(vCharShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
                             }
                             else
                             {
-                                Debug.WriteLine("[vMenu] Player not found, could not ban player.");
+                                Debug.WriteLine("[vChar] Player not found, could not ban player.");
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("[vMenu] Not enough arguments, syntax: ^5vmenuserver ban <id|name> <server id|username> <reason>^7.");
+                            Debug.WriteLine("[vChar] Not enough arguments, syntax: ^5vmenuserver ban <id|name> <server id|username> <reason>^7.");
                         }
                     }
                     else if (args[0].ToString().ToLower() == "help")
@@ -444,38 +444,38 @@ namespace vMenuServer
                         Debug.WriteLine("(server console only): vmenuserver unban <uuid>");
                         Debug.WriteLine("vmenuserver weather <new weather type | dynamic <true | false>>");
                         Debug.WriteLine("vmenuserver time <freeze|<hour> <minute>>");
-                        Debug.WriteLine("vmenuserver migrate (This copies all banned players in the bans.json file to the new ban system in vMenu v3.3.0, you only need to do this once)");
+                        Debug.WriteLine("vmenuserver migrate (This copies all banned players in the bans.json file to the new ban system in vChar v3.3.0, you only need to do this once)");
                     }
                     else if (args[0].ToString().ToLower() == "migrate" && source < 1)
                     {
                         string file = LoadResourceFile(GetCurrentResourceName(), "bans.json");
                         if (string.IsNullOrEmpty(file) || file == "[]")
                         {
-                            Debug.WriteLine("&1[vMenu] [ERROR]^7 No bans.json file found or it's empty.");
+                            Debug.WriteLine("&1[vChar] [ERROR]^7 No bans.json file found or it's empty.");
                             return;
                         }
-                        Debug.WriteLine("^5[vMenu] [INFO]^7 Importing all ban records from the bans.json file into the new storage system. ^3This may take some time...^7");
+                        Debug.WriteLine("^5[vChar] [INFO]^7 Importing all ban records from the bans.json file into the new storage system. ^3This may take some time...^7");
                         var bans = JsonConvert.DeserializeObject<List<BanManager.BanRecord>>(file);
                         bans.ForEach((br) =>
                         {
                             var record = new BanManager.BanRecord(br.playerName, br.identifiers, br.bannedUntil, br.banReason, br.bannedBy, Guid.NewGuid());
                             BanManager.AddBan(record);
                         });
-                        Debug.WriteLine("^2[vMenu] [SUCCESS]^7 All ban records have been imported. You now no longer need the bans.json file.");
+                        Debug.WriteLine("^2[vChar] [SUCCESS]^7 All ban records have been imported. You now no longer need the bans.json file.");
                     }
                     else
                     {
-                        Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                        Debug.WriteLine($"vChar is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
                     }
                 }
                 else
                 {
-                    Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                    Debug.WriteLine($"vChar is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
                 }
             }
             else
             {
-                Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                Debug.WriteLine($"vChar is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
             }
         }
         #endregion
@@ -487,15 +487,15 @@ namespace vMenuServer
         /// <param name="source"></param>
         /// <param name="vehicleNetId"></param>
         /// <param name="playerOwner"></param>
-        [EventHandler("vMenu:GetOutOfCar")]
+        [EventHandler("vChar:GetOutOfCar")]
         private void GetOutOfCar([FromSource] Player source, int vehicleNetId, int playerOwner)
         {
             if (source != null)
             {
-                if (vMenuShared.PermissionsManager.GetPermissionAndParentPermissions(vMenuShared.PermissionsManager.Permission.PVKickPassengers).Any(perm => vMenuShared.PermissionsManager.IsAllowed(perm, source)))
+                if (vCharShared.PermissionsManager.GetPermissionAndParentPermissions(vCharShared.PermissionsManager.Permission.PVKickPassengers).Any(perm => vCharShared.PermissionsManager.IsAllowed(perm, source)))
                 {
-                    TriggerClientEvent("vMenu:GetOutOfCar", vehicleNetId, playerOwner);
-                    source.TriggerEvent("vMenu:Notify", "All passengers will be kicked out as soon as the vehicle stops moving, or after 10 seconds if they refuse to stop the vehicle.");
+                    TriggerClientEvent("vChar:GetOutOfCar", vehicleNetId, playerOwner);
+                    source.TriggerEvent("vChar:Notify", "All passengers will be kicked out as soon as the vehicle stops moving, or after 10 seconds if they refuse to stop the vehicle.");
                 }
             }
         }
@@ -508,10 +508,10 @@ namespace vMenuServer
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        [EventHandler("vMenu:ClearArea")]
+        [EventHandler("vChar:ClearArea")]
         private void ClearAreaNearPos(float x, float y, float z)
         {
-            TriggerClientEvent("vMenu:ClearArea", x, y, z);
+            TriggerClientEvent("vChar:ClearArea", x, y, z);
         }
         #endregion
 
@@ -665,7 +665,7 @@ namespace vMenuServer
         /// <param name="newWeather"></param>
         /// <param name="blackoutNew"></param>
         /// <param name="dynamicWeatherNew"></param>
-        [EventHandler("vMenu:UpdateServerWeather")]
+        [EventHandler("vChar:UpdateServerWeather")]
         private void UpdateWeather(string newWeather, bool blackoutNew, bool dynamicWeatherNew)
         {
             // Update the new weather related variables.
@@ -681,18 +681,18 @@ namespace vMenuServer
         /// Set a new random clouds type and opacity for all clients.
         /// </summary>
         /// <param name="removeClouds"></param>
-        [EventHandler("vMenu:UpdateServerWeatherCloudsType")]
+        [EventHandler("vChar:UpdateServerWeatherCloudsType")]
         private void UpdateWeatherCloudsType(bool removeClouds)
         {
             if (removeClouds)
             {
-                TriggerClientEvent("vMenu:SetClouds", 0f, "removed");
+                TriggerClientEvent("vChar:SetClouds", 0f, "removed");
             }
             else
             {
                 float opacity = float.Parse(new Random().NextDouble().ToString());
                 string type = CloudTypes[new Random().Next(0, CloudTypes.Count)];
-                TriggerClientEvent("vMenu:SetClouds", opacity, type);
+                TriggerClientEvent("vChar:SetClouds", opacity, type);
             }
         }
 
@@ -702,7 +702,7 @@ namespace vMenuServer
         /// <param name="newHours"></param>
         /// <param name="newMinutes"></param>
         /// <param name="freezeTimeNew"></param>
-        [EventHandler("vMenu:UpdateServerTime")]
+        [EventHandler("vChar:UpdateServerTime")]
         private void UpdateTime(int newHours, int newMinutes, bool freezeTimeNew)
         {
             CurrentHours = newHours;
@@ -718,32 +718,32 @@ namespace vMenuServer
         /// <param name="source"></param>
         /// <param name="target"></param>
         /// <param name="kickReason"></param>
-        [EventHandler("vMenu:KickPlayer")]
+        [EventHandler("vChar:KickPlayer")]
         private void KickPlayer([FromSource] Player source, int target, string kickReason = "You have been kicked from the server.")
         {
-            if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Kick") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything") ||
-                IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All"))
+            if (IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.Kick") || IsPlayerAceAllowed(source.Handle, "vChar.Everything") ||
+                IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.All"))
             {
                 // If the player is allowed to be kicked.
                 Player targetPlayer = Players[target];
                 if (targetPlayer != null)
                 {
-                    if (!IsPlayerAceAllowed(targetPlayer.Handle, "vMenu.DontKickMe"))
+                    if (!IsPlayerAceAllowed(targetPlayer.Handle, "vChar.DontKickMe"))
                     {
-                        TriggerEvent("vMenu:KickSuccessful", source.Name, kickReason, targetPlayer.Name);
+                        TriggerEvent("vChar:KickSuccessful", source.Name, kickReason, targetPlayer.Name);
 
                         KickLog($"Player: {source.Name} has kicked: {targetPlayer.Name} for: {kickReason}.");
-                        TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: $"The target player (<C>{targetPlayer.Name}</C>) has been kicked.");
+                        TriggerClientEvent(player: source, eventName: "vChar:Notify", args: $"The target player (<C>{targetPlayer.Name}</C>) has been kicked.");
 
                         // Kick the player from the server using the specified reason.
                         DropPlayer(targetPlayer.Handle, kickReason);
                         return;
                     }
                     // Trigger the client event on the source player to let them know that kicking this player is not allowed.
-                    TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Sorry, this player can ~r~not ~w~be kicked.");
+                    TriggerClientEvent(player: source, eventName: "vChar:Notify", args: "Sorry, this player can ~r~not ~w~be kicked.");
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vChar:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
             }
             else
             {
@@ -756,20 +756,20 @@ namespace vMenuServer
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        [EventHandler("vMenu:KillPlayer")]
+        [EventHandler("vChar:KillPlayer")]
         private void KillPlayer([FromSource] Player source, int target)
         {
-            if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Kill") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything") ||
-                IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All"))
+            if (IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.Kill") || IsPlayerAceAllowed(source.Handle, "vChar.Everything") ||
+                IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.All"))
             {
                 Player targetPlayer = Players[target];
                 if (targetPlayer != null)
                 {
                     // Trigger the client event on the target player to make them kill themselves. R.I.P.
-                    TriggerClientEvent(player: targetPlayer, eventName: "vMenu:KillMe", args: source.Name);
+                    TriggerClientEvent(player: targetPlayer, eventName: "vChar:KillMe", args: source.Name);
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vChar:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
             }
             else
             {
@@ -782,20 +782,20 @@ namespace vMenuServer
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        [EventHandler("vMenu:SummonPlayer")]
+        [EventHandler("vChar:SummonPlayer")]
         private void SummonPlayer([FromSource] Player source, int target)
         {
-            if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Summon") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything") ||
-                IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All"))
+            if (IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.Summon") || IsPlayerAceAllowed(source.Handle, "vChar.Everything") ||
+                IsPlayerAceAllowed(source.Handle, "vChar.OnlinePlayers.All"))
             {
                 // Trigger the client event on the target player to make them teleport to the source player.
                 Player targetPlayer = Players[target];
                 if (targetPlayer != null)
                 {
-                    TriggerClientEvent(player: targetPlayer, eventName: "vMenu:GoToPlayer", args: source.Handle);
+                    TriggerClientEvent(player: targetPlayer, eventName: "vChar:GoToPlayer", args: source.Handle);
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vChar:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
             }
             else
             {
@@ -803,34 +803,34 @@ namespace vMenuServer
             }
         }
 
-        [EventHandler("vMenu:SendMessageToPlayer")]
+        [EventHandler("vChar:SendMessageToPlayer")]
         private void SendPrivateMessage([FromSource] Player source, int targetServerId, string message)
         {
             Player targetPlayer = Players[targetServerId];
             if (targetPlayer != null)
             {
-                targetPlayer.TriggerEvent("vMenu:PrivateMessage", source.Handle, message);
+                targetPlayer.TriggerEvent("vChar:PrivateMessage", source.Handle, message);
 
                 foreach (Player p in Players)
                 {
                     if (p != source && p != targetPlayer)
                     {
-                        if (vMenuShared.PermissionsManager.IsAllowed(vMenuShared.PermissionsManager.Permission.OPSeePrivateMessages, p))
+                        if (vCharShared.PermissionsManager.IsAllowed(vCharShared.PermissionsManager.Permission.OPSeePrivateMessages, p))
                         {
-                            p.TriggerEvent("vMenu:Notify", $"[vMenu Staff Log] <C>{source.Name}</C>~s~ sent a PM to <C>{targetPlayer.Name}</C>~s~: {message}");
+                            p.TriggerEvent("vChar:Notify", $"[vChar Staff Log] <C>{source.Name}</C>~s~ sent a PM to <C>{targetPlayer.Name}</C>~s~: {message}");
                         }
                     }
                 }
             }
         }
 
-        [EventHandler("vMenu:PmsDisabled")]
+        [EventHandler("vChar:PmsDisabled")]
         private void NotifySenderThatDmsAreDisabled([FromSource] Player source, string senderServerId)
         {
             var p = Players[int.Parse(senderServerId)];
             if (p != null)
             {
-                p.TriggerEvent("vMenu:Notify", $"Sorry, your private message to <C>{source.Name}</C>~s~ could not be delivered because they disabled private messages.");
+                p.TriggerEvent("vChar:Notify", $"Sorry, your private message to <C>{source.Name}</C>~s~ could not be delivered because they disabled private messages.");
             }
         }
         #endregion
@@ -842,7 +842,7 @@ namespace vMenuServer
         /// <param name="kickLogMesage"></param>
         private static void KickLog(string kickLogMesage)
         {
-            //if (GetConvar("vMenuLogKickActions", "true") == "true")
+            //if (GetConvar("vCharLogKickActions", "true") == "true")
             if (GetSettingsBool(Setting.vmenu_log_kick_actions))
             {
                 string file = LoadResourceFile(GetCurrentResourceName(), "vmenu.log") ?? "";
@@ -855,14 +855,14 @@ namespace vMenuServer
                     (date.Second < 10 ? "0" : "") + date.Second;
                 string outputFile = file + $"[\t{formattedDate}\t] [KICK ACTION] {kickLogMesage}\n";
                 SaveResourceFile(GetCurrentResourceName(), "vmenu.log", outputFile, -1);
-                Debug.WriteLine("^3[vMenu] [KICK]^7 " + kickLogMesage + "\n");
+                Debug.WriteLine("^3[vChar] [KICK]^7 " + kickLogMesage + "\n");
             }
         }
 
         #endregion
 
         #region Add teleport location
-        [EventHandler("vMenu:SaveTeleportLocation")]
+        [EventHandler("vChar:SaveTeleportLocation")]
         private void AddTeleportLocation([FromSource] Player source, string locationJson)
         {
             TeleportLocation location = JsonConvert.DeserializeObject<TeleportLocation>(locationJson);
@@ -877,7 +877,7 @@ namespace vMenuServer
             {
                 Log("Could not save locations.json file, reason unknown.", LogLevel.error);
             }
-            TriggerClientEvent("vMenu:UpdateTeleportLocations", JsonConvert.SerializeObject(locs.teleports));
+            TriggerClientEvent("vChar:UpdateTeleportLocations", JsonConvert.SerializeObject(locs.teleports));
         }
         #endregion
 

@@ -5,6 +5,6 @@ curl -H "Content-Type: application/x-www-form-urlencoded" -d "success=true&commi
 :file
 
 if not defined DISCORD_FILE_WEBHOOK goto end
-curl -s -o nul -F "file=@vMenu-%VERSION_NAME%.zip" %DISCORD_FILE_WEBHOOK%
+curl -s -o nul -F "file=@vChar-%VERSION_NAME%.zip" %DISCORD_FILE_WEBHOOK%
 
 :end

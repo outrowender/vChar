@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class BannedPlayers
     {
@@ -82,7 +82,7 @@ namespace vMenuClient
 
             bannedPlayer.OnMenuClose += (sender) =>
             {
-                BaseScript.TriggerServerEvent("vMenu:RequestBanList", Game.Player.Handle);
+                BaseScript.TriggerServerEvent("vChar:RequestBanList", Game.Player.Handle);
                 bannedPlayer.GetMenuItems()[5].Label = "";
                 UpdateBans();
             };
@@ -230,7 +230,7 @@ namespace vMenuClient
         {
             BanRecord record = banlist[index];
             banlist.Remove(record);
-            BaseScript.TriggerServerEvent("vMenu:RequestPlayerUnban", record.uuid);
+            BaseScript.TriggerServerEvent("vChar:RequestPlayerUnban", record.uuid);
         }
 
         /// <summary>

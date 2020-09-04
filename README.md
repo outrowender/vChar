@@ -9,11 +9,11 @@
 --------
 
 
-# vMenu
-vMenu is server sided menu for FiveM servers, including full\* permission support.
+# vChar
+vChar is server sided menu for FiveM servers, including full\* permission support.
 
 
-\*(Some features do not have permissions support as they are either harmless or it'd just be silly to deny them. However, they will be disabled if you deny access to the submenu that they are a part of (eg: unlimited stamina in Player Options will be disabled if you deny `vMenu.PlayerOptions.Menu`.))
+\*(Some features do not have permissions support as they are either harmless or it'd just be silly to deny them. However, they will be disabled if you deny access to the submenu that they are a part of (eg: unlimited stamina in Player Options will be disabled if you deny `vChar.PlayerOptions.Menu`.))
 
 --------
 
@@ -21,19 +21,19 @@ vMenu is server sided menu for FiveM servers, including full\* permission suppor
 
 ## Download
 
-Click [here](https://github.com/TomGrobbe/vMenu/releases) to go to the releases page and download it.
+Click [here](https://github.com/TomGrobbe/vChar/releases) to go to the releases page and download it.
 
 --------
 
 ## Installation
-Please follow the instructions over at the [vMenu docs](https://docs.vespura.com/vmenu/installation)
+Please follow the instructions over at the [vChar docs](https://docs.vespura.com/vmenu/installation)
 
 ## Zap Hosting
 If you're using Zap Hosting, you may find that moving the `permissions.cfg` file to the same folder as your `server.cfg` file may not work correctly (it could get reset every time you restart your server).
 
-If this is the case, leave your `permissions.cfg` file here: `/resources/vMenu/config/permissions.cfg` and add the following to the very top of your server.cfg file: `exec resources/vMenu/config/permissions.cfg` (instead of `exec permissions.cfg`).
+If this is the case, leave your `permissions.cfg` file here: `/resources/vChar/config/permissions.cfg` and add the following to the very top of your server.cfg file: `exec resources/vChar/config/permissions.cfg` (instead of `exec permissions.cfg`).
 
-You can also use ZAP Hosting's one-click installer for vMenu. Get a ZAP-Hosting server with a 10% lifetime discount [HERE](https://zap-hosting.com/vespura) and make sure to use `Vespura-a-3715` at checkout.
+You can also use ZAP Hosting's one-click installer for vChar. Get a ZAP-Hosting server with a 10% lifetime discount [HERE](https://zap-hosting.com/vespura) and make sure to use `Vespura-a-3715` at checkout.
 
 --------
 
@@ -63,9 +63,9 @@ Click [here](https://docs.vespura.com/vmenu/configuration) for configuration opt
 
 
 ## MenuAPI
-Starting from vMenu v2.1.0, vMenu will be using [MenuAPI (MAPI)](https://github.com/TomGrobbe/MenuAPI), a custom menu API designed specifically for vMenu by me.
+Starting from vChar v2.1.0, vChar will be using [MenuAPI (MAPI)](https://github.com/TomGrobbe/MenuAPI), a custom menu API designed specifically for vChar by me.
 
-vMenu v2.0.0 and earlier was [using a modified version of NativeUI](https://github.com/TomGrobbe/NativeUI), originally by [Guad](https://github.com/Guad/NativeUI), but converted to FiveM by the CitizenFX Collectives and myself (updated/refactored).
+vChar v2.0.0 and earlier was [using a modified version of NativeUI](https://github.com/TomGrobbe/NativeUI), originally by [Guad](https://github.com/Guad/NativeUI), but converted to FiveM by the CitizenFX Collectives and myself (updated/refactored).
 
 
 --------

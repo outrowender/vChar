@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class SavedVehicles
     {
@@ -21,7 +21,7 @@ namespace vMenuClient
         private Menu unavailableVehiclesMenu = new Menu("Missing Vehicles", "Unavailable Saved Vehicles");
         private Dictionary<string, VehicleInfo> savedVehicles = new Dictionary<string, VehicleInfo>();
         private List<Menu> subMenus = new List<Menu>();
-        private Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>> svMenuItems = new Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>>();
+        private Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>> svCharItems = new Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>>();
         private KeyValuePair<string, VehicleInfo> currentlySelectedVehicle = new KeyValuePair<string, VehicleInfo>();
         private int deleteButtonPressedCount = 0;
 
@@ -250,12 +250,12 @@ namespace vMenuClient
         /// <returns>A bool, true if successfull, false if unsuccessfull</returns>
         private bool UpdateSelectedVehicleMenu(MenuItem selectedItem, Menu parentMenu = null)
         {
-            if (!svMenuItems.ContainsKey(selectedItem))
+            if (!svCharItems.ContainsKey(selectedItem))
             {
                 Notify.Error("In some very strange way, you've managed to select a button, that does not exist according to this list. So your vehicle could not be loaded. :( Maybe your save files are broken?");
                 return false;
             }
-            var vehInfo = svMenuItems[selectedItem];
+            var vehInfo = svCharItems[selectedItem];
             selectedVehicleMenu.MenuSubtitle = $"{vehInfo.Key.Substring(4)} ({vehInfo.Value.name})";
             currentlySelectedVehicle = vehInfo;
             MenuController.CloseAllMenus();
@@ -274,7 +274,7 @@ namespace vMenuClient
         public void UpdateMenuAvailableCategories()
         {
             savedVehicles = GetSavedVehicles();
-            svMenuItems = new Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>>();
+            svCharItems = new Dictionary<MenuItem, KeyValuePair<string, VehicleInfo>>();
 
             for (int i = 1; i < GetMenu().Size - 1; i++)
             {
@@ -332,7 +332,7 @@ namespace vMenuClient
                     };
                     menu.AddMenuItem(savedVehicleBtn);
 
-                    svMenuItems.Add(savedVehicleBtn, sv);
+                    svCharItems.Add(savedVehicleBtn, sv);
                 }
                 else
                 {

@@ -467,7 +467,7 @@ namespace vCharShared
             // If enabled in the permissions.cfg (disabled by default) then this will give me (only me) the option to trigger some debug commands and 
             // try out menu options. This only works if I'm in-game on your server, and you have enabled server debugging mode, this way I will never
             // be able to do something without you actually allowing it.
-            if (player.Identifiers.ToList().Any(id => id == "4510587c13e0b645eb8d24bc104601792277ab98") && IsPlayerAceAllowed(player.Handle, "vMenu.Dev") && ConfigManager.DebugMode)
+            if (player.Identifiers.ToList().Any(id => id == "4510587c13e0b645eb8d24bc104601792277ab98") && IsPlayerAceAllowed(player.Handle, "vChar.Dev") && ConfigManager.DebugMode)
             {
                 perms.Add(Permission.Everything, true);
             }
@@ -509,11 +509,11 @@ namespace vCharShared
             }
 
             // Send the permissions to the client.
-            player.TriggerEvent("vMenu:SetPermissions", Newtonsoft.Json.JsonConvert.SerializeObject(perms));
+            player.TriggerEvent("vChar:SetPermissions", Newtonsoft.Json.JsonConvert.SerializeObject(perms));
 
             // Also tell the client to do the addons setup.
-            player.TriggerEvent("vMenu:SetAddons");
-            player.TriggerEvent("vMenu:UpdateTeleportLocations", Newtonsoft.Json.JsonConvert.SerializeObject(ConfigManager.GetTeleportLocationsData()));
+            player.TriggerEvent("vChar:SetAddons");
+            player.TriggerEvent("vChar:UpdateTeleportLocations", Newtonsoft.Json.JsonConvert.SerializeObject(ConfigManager.GetTeleportLocationsData()));
         }
 #endif
 #if CLIENT
@@ -529,7 +529,7 @@ namespace vCharShared
                 // if debug logging.
                 if (GetResourceMetadata(GetCurrentResourceName(), "client_debug_mode", 0) == "true")
                 {
-                    Debug.WriteLine("[vMenu] [Permissions] " + Newtonsoft.Json.JsonConvert.SerializeObject(Permissions, Newtonsoft.Json.Formatting.None));
+                    Debug.WriteLine("[vChar] [Permissions] " + Newtonsoft.Json.JsonConvert.SerializeObject(Permissions, Newtonsoft.Json.Formatting.None));
                 }
 
             }
@@ -545,7 +545,7 @@ namespace vCharShared
         {
             string name = permission.ToString();
 
-            string prefix = "vMenu.";
+            string prefix = "vChar.";
 
             switch (name.Substring(0, 2))
             {

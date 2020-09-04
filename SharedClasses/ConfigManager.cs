@@ -123,7 +123,7 @@ namespace vCharShared
         /// <returns></returns>
         public static bool IsServerDebugModeEnabled()
         {
-            return GetResourceMetadata("vMenu", "server_debug_mode", 0).ToLower() == "true";
+            return GetResourceMetadata("vChar", "server_debug_mode", 0).ToLower() == "true";
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace vCharShared
         /// <returns></returns>
         public static bool IsClientDebugModeEnabled()
         {
-            return GetResourceMetadata("vMenu", "client_debug_mode", 0).ToLower() == "true";
+            return GetResourceMetadata("vChar", "client_debug_mode", 0).ToLower() == "true";
         }
 
         #region Get saved locations from the locations.json
@@ -150,10 +150,10 @@ namespace vCharShared
                 if (string.IsNullOrEmpty(jsonFile))
                 {
 #if CLIENT
-                    vMenuClient.Notify.Error("The locations.json file is empty or does not exist, please tell the server owner to fix this.");
+                    vCharClient.Notify.Error("The locations.json file is empty or does not exist, please tell the server owner to fix this.");
 #endif
 #if SERVER
-                    vMenuServer.DebugLog.Log("The locations.json file is empty or does not exist, please fix this.", vMenuServer.DebugLog.LogLevel.error);
+                    vCharServer.DebugLog.Log("The locations.json file is empty or does not exist, please fix this.", vCharServer.DebugLog.LogLevel.error);
 #endif
                 }
                 else
@@ -164,9 +164,9 @@ namespace vCharShared
             catch (Exception e)
             {
 #if CLIENT
-                vMenuClient.Notify.Error("An error occurred while processing the locations.json file. Teleport Locations and Location Blips will be unavailable. Please correct any errors in the locations.json file.");
+                vCharClient.Notify.Error("An error occurred while processing the locations.json file. Teleport Locations and Location Blips will be unavailable. Please correct any errors in the locations.json file.");
 #endif
-                Debug.WriteLine($"[vMenu] json exception details: {e.Message}\nStackTrace:\n{e.StackTrace}");
+                Debug.WriteLine($"[vChar] json exception details: {e.Message}\nStackTrace:\n{e.StackTrace}");
             }
 
             return data;

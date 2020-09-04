@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class PersonalVehicle
     {
@@ -263,7 +263,7 @@ namespace vMenuClient
                         if (CurrentPersonalVehicle.Occupants.Count() > 0 && CurrentPersonalVehicle.Occupants.Any(p => p != Game.PlayerPed))
                         {
                             var netId = VehToNet(CurrentPersonalVehicle.Handle);
-                            TriggerServerEvent("vMenu:GetOutOfCar", netId, Game.Player.ServerId);
+                            TriggerServerEvent("vChar:GetOutOfCar", netId, Game.Player.ServerId);
                         }
                         else
                         {

@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class PlayerAppearance
     {
@@ -341,7 +341,7 @@ namespace vMenuClient
                 spawnPedsMenu.AddMenuItem(otherPedsBtn);
 
                 MenuController.BindMenuItem(spawnPedsMenu, mainPedsMenu, mainPedsBtn);
-                if (vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_enable_animals_spawn_menu))
+                if (vCharShared.ConfigManager.GetSettingsBool(vCharShared.ConfigManager.Setting.vmenu_enable_animals_spawn_menu))
                 {
                     MenuController.BindMenuItem(spawnPedsMenu, animalsPedsMenu, animalPedsBtn);
                 }
@@ -557,7 +557,7 @@ namespace vMenuClient
                             {
                                 BeginTextCommandDisplayHelp("TWOSTRINGS");
                                 AddTextComponentSubstringPlayerName("Hold ~INPUT_SWITCH_VISOR~ to flip your helmet visor open or closed");
-                                AddTextComponentSubstringPlayerName("when on foot or on a motorcycle and when vMenu is closed.");
+                                AddTextComponentSubstringPlayerName("when on foot or on a motorcycle and when vChar is closed.");
                                 EndTextCommandDisplayHelp(0, false, true, 6000);
                             }
                         }

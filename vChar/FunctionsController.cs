@@ -120,7 +120,7 @@ namespace vCharClient
             {
                 gcTimer = GetGameTimer();
                 GC.Collect();
-                Log($"[vMenu] GC at {GetGameTimer()} ({GetTimeAsString(GetGameTimer())}).");
+                Log($"[vChar] GC at {GetGameTimer()} ({GetTimeAsString(GetGameTimer())}).");
 
             }
             await Delay(1000);
@@ -437,7 +437,7 @@ namespace vCharClient
                                 }
                                 catch (Exception e)
                                 {
-                                    Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                                    Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                                     Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                                     await Delay(1000);
                                 }
@@ -594,7 +594,7 @@ namespace vCharClient
                     {
                         if (!(it is MenuCheckboxItem))
                         {
-                            if (it == vMenuClient.WeatherOptions.weatherHashMenuIndex[(uint)GetNextWeatherTypeHashName()])
+                            if (it == vCharClient.WeatherOptions.weatherHashMenuIndex[(uint)GetNextWeatherTypeHashName()])
                             {
                                 it.RightIcon = MenuItem.Icon.TICK;
                             }
@@ -1983,7 +1983,7 @@ namespace vCharClient
                     {
                         if (MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed(Permission.MSRestoreAppearance))
                         {
-                            await SavePed("vMenu_tmp_saved_ped");
+                            await SavePed("vChar_tmp_saved_ped");
                         }
                     }
 
@@ -2013,7 +2013,7 @@ namespace vCharClient
                     {
                         if (IsTempPedSaved() && MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed(Permission.MSRestoreAppearance))
                         {
-                            LoadSavedPed("vMenu_tmp_saved_ped", false);
+                            LoadSavedPed("vChar_tmp_saved_ped", false);
                         }
                     }
 
@@ -2041,7 +2041,7 @@ namespace vCharClient
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                         Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                         await Delay(1000);
                     }
@@ -2058,7 +2058,7 @@ namespace vCharClient
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                         Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                         await Delay(1000);
                     }
@@ -2136,7 +2136,7 @@ namespace vCharClient
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                    Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                     Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                     await Delay(1000);
                 }
@@ -2166,7 +2166,7 @@ namespace vCharClient
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                         Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                         await Delay(1000);
                     }
@@ -2284,7 +2284,7 @@ namespace vCharClient
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vMenu is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vMenu will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vMenu!!!");
+                        Debug.WriteLine(@"[CRITICAL] A critical bug in one of your scripts was detected. vChar is unable to set or register a decorator's value because another resource has already registered 1.5k or more decorators. vChar will NOT work as long as this bug in your other scripts is unsolved. Please fix your other scripts. This is *NOT* caused by or fixable by vChar!!!");
                         Debug.WriteLine($"Error Location: {e.StackTrace}\nError info: {e.Message}");
                         await Delay(1000);
                     }
@@ -3081,7 +3081,7 @@ namespace vCharClient
                         if (GetGameTimer() - timeoutTimer > 1000)
                         {
                             ClearPedTasks(Game.PlayerPed.Handle);
-                            Debug.WriteLine("[vMenu] [WARNING] Waiting for animation to start took too long. Preventing hanging of function. Dbg: fault in location 1.");
+                            Debug.WriteLine("[vChar] [WARNING] Waiting for animation to start took too long. Preventing hanging of function. Dbg: fault in location 1.");
                             return;
                         }
                         await Delay(0);
@@ -3094,7 +3094,7 @@ namespace vCharClient
                         if (GetGameTimer() - timeoutTimer > 3000)
                         {
                             ClearPedTasks(Game.PlayerPed.Handle);
-                            Debug.WriteLine("[vMenu] [WARNING] Waiting for animation duration took too long. Preventing hanging of function. Dbg: fault in location 2.");
+                            Debug.WriteLine("[vChar] [WARNING] Waiting for animation duration took too long. Preventing hanging of function. Dbg: fault in location 2.");
                             return;
                         }
                         if (GetEntityAnimCurrentTime(Game.PlayerPed.Handle, animDict, animName) > 0.39f)

@@ -21,9 +21,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**vMenu Info**:
+**vChar Info**:
 - Server ip:
-- vMenu Version (check the about menu):
+- vChar Version (check the about menu):
 - Do you have access to the files?
 - FXServer artifacts version:
 
@@ -33,6 +33,6 @@ Add any other context about the problem here.
 Such as:
 
 - A list of allowed permissions for the player that is having this issue.
-- A list of enabled/disabled vMenu features.
+- A list of enabled/disabled vChar features.
 
 Both of these can very easily be provided by using `/vmenuclient dump` while in-game and sending the CitizenFX.log file (`FiveM Application Data\CitizenFX.log`) from that same game session.

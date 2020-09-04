@@ -8,25 +8,25 @@ using Newtonsoft.Json;
 using CitizenFX.Core;
 using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
-using static vMenuClient.CommonFunctions;
-using static vMenuClient.MpPedDataManager;
-using static vMenuShared.PermissionsManager;
+using static vCharClient.CommonFunctions;
+using static vCharClient.MpPedDataManager;
+using static vCharShared.PermissionsManager;
 
-namespace vMenuClient
+namespace vCharClient
 {
     public class MpPedCustomization
     {
         // Variables
         private Menu menu;
         public Menu createCharacterMenu = new Menu("Create Character", "Create A New Character");
-        //public Menu savedCharactersMenu = new Menu("vMenu", "Manage Saved Characters");
-        public Menu inheritanceMenu = new Menu("vMenu", "Character Inheritance Options");
-        public Menu appearanceMenu = new Menu("vMenu", "Character Appearance Options");
-        public Menu faceShapeMenu = new Menu("vMenu", "Character Face Shape Options");
-        public Menu tattoosMenu = new Menu("vMenu", "Character Tattoo Options");
-        public Menu clothesMenu = new Menu("vMenu", "Character Clothing Options");
-        public Menu propsMenu = new Menu("vMenu", "Character Props Options");
-        private Menu manageSavedCharacterMenu = new Menu("vMenu", "Manage MP Character");
+        //public Menu savedCharactersMenu = new Menu("vChar", "Manage Saved Characters");
+        public Menu inheritanceMenu = new Menu("vChar", "Character Inheritance Options");
+        public Menu appearanceMenu = new Menu("vChar", "Character Appearance Options");
+        public Menu faceShapeMenu = new Menu("vChar", "Character Face Shape Options");
+        public Menu tattoosMenu = new Menu("vChar", "Character Tattoo Options");
+        public Menu clothesMenu = new Menu("vChar", "Character Clothing Options");
+        public Menu propsMenu = new Menu("vChar", "Character Props Options");
+        private Menu manageSavedCharacterMenu = new Menu("vChar", "Manage MP Character");
 
         // Need to be able to disable/enable these buttons from another class.
         internal MenuItem createMaleBtn = new MenuItem("Create Male Character", "Create a new male character.") { Label = "→→→" };

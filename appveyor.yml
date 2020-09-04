@@ -6,7 +6,7 @@ before_build:
   - nuget restore
 build:
   parallel: true
-  project: vMenu.sln
+  project: vChar.sln
   include_nuget_references: true
   verbosity: minimal
 after_build:
@@ -14,19 +14,19 @@ after_build:
   - cmd: copy LICENSE.md ..\build\net452\LICENSE.md
   - ps: Invoke-WebRequest -OutFile '..\build\net452\fxmanifest.lua' https://vespura.com/vmenu/fxmanifest.lua
   - cmd: if %APPVEYOR_REPO_TAG%==true (appveyor SetVariable -Name VERSION_NAME -Value %APPVEYOR_REPO_TAG_NAME%) else (appveyor SetVariable -Name VERSION_NAME -Value beta-%APPVEYOR_REPO_COMMIT:~0,7%)
-  - cmd: cd ..\build\net452\ && 7z a "..\..\vMenu\vMenu-%VERSION_NAME%.zip" -r * && cd ..\..\vMenu\
-  - cmd: appveyor PushArtifact vMenu-%VERSION_NAME%.zip
+  - cmd: cd ..\build\net452\ && 7z a "..\..\vChar\vChar-%VERSION_NAME%.zip" -r * && cd ..\..\vChar\
+  - cmd: appveyor PushArtifact vChar-%VERSION_NAME%.zip
 deploy:
   - provider: GitHub
-    release: "[Release] vMenu $(VERSION_NAME)"
+    release: "[Release] vChar $(VERSION_NAME)"
     tag: $(VERSION_NAME)
-    artifact: vMenu-$(VERSION_NAME).zip
+    artifact: vChar-$(VERSION_NAME).zip
     draft: true
     prerelease: false
     auth_token: $(github_auth)
     on:
       APPVEYOR_REPO_TAG: true
-    description: "vMenu version $(VERSION_NAME)."
+    description: "vChar version $(VERSION_NAME)."
 on_success:
   - cmd: appveyor/on_success.bat
 on_failure:

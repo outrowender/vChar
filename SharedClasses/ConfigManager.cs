@@ -150,7 +150,7 @@ namespace vCharShared
                 if (string.IsNullOrEmpty(jsonFile))
                 {
 #if CLIENT
-                    vCharClient.Notify.Error("The locations.json file is empty or does not exist, please tell the server owner to fix this.");
+                    //vCharClient.Notify.Error("The locations.json file is empty or does not exist, please tell the server owner to fix this.");
 #endif
 #if SERVER
                     vCharServer.DebugLog.Log("The locations.json file is empty or does not exist, please fix this.", vCharServer.DebugLog.LogLevel.error);
@@ -164,7 +164,7 @@ namespace vCharShared
             catch (Exception e)
             {
 #if CLIENT
-                vCharClient.Notify.Error("An error occurred while processing the locations.json file. Teleport Locations and Location Blips will be unavailable. Please correct any errors in the locations.json file.");
+                //vCharClient.Notify.Error("An error occurred while processing the locations.json file. Teleport Locations and Location Blips will be unavailable. Please correct any errors in the locations.json file.");
 #endif
                 Debug.WriteLine($"[vChar] json exception details: {e.Message}\nStackTrace:\n{e.StackTrace}");
             }

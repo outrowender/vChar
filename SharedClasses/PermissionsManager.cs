@@ -338,7 +338,7 @@ namespace vCharShared
         };
 
         public static Dictionary<Permission, bool> Permissions { get; private set; } = new Dictionary<Permission, bool>();
-        public static bool ArePermissionsSetup { get; set; } = false;
+        public static bool ArePermissionsSetup { get; set; } = true;
 
 
 #if SERVER

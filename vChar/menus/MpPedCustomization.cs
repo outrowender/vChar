@@ -10,7 +10,6 @@ using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
 using static vCharClient.CommonFunctions;
 using static vCharClient.MpPedDataManager;
-using static vCharShared.PermissionsManager;
 
 namespace vCharClient
 {
@@ -711,12 +710,12 @@ namespace vCharClient
                 string json = JsonConvert.SerializeObject(currentCharacter);
                 if (StorageManager.SaveJsonData(currentCharacter.SaveName, json, true))
                 {
-                    Notify.Success("Your character was saved successfully.");
+                    //Notify.Success("Your character was saved successfully.");
                     return true;
                 }
                 else
                 {
-                    Notify.Error("Your character could not be saved. Reason unknown. :(");
+                    //Notify.Error("Your character could not be saved. Reason unknown. :(");
                     return false;
                 }
             }
@@ -725,7 +724,7 @@ namespace vCharClient
                 string name = await GetUserInput(windowTitle: "Enter a save name.", maxInputLength: 30);
                 if (string.IsNullOrEmpty(name))
                 {
-                    Notify.Error(CommonErrors.InvalidInput);
+                    //Notify.Error(CommonErrors.InvalidInput);
                     return false;
                 }
                 else
@@ -735,13 +734,13 @@ namespace vCharClient
 
                     if (StorageManager.SaveJsonData("mp_ped_" + name, json, false))
                     {
-                        Notify.Success($"Your character (~g~<C>{name}</C>~s~) has been saved.");
+                        //Notify.Success($"Your character (~g~<C>{name}</C>~s~) has been saved.");
                         Log($"Saved Character {name}. Data: {json}");
                         return true;
                     }
                     else
                     {
-                        Notify.Error($"Saving failed, most likely because this name (~y~<C>{name}</C>~s~) is already in use.");
+                        //Notify.Error($"Saving failed, most likely because this name (~y~<C>{name}</C>~s~) is already in use.");
                         return false;
                     }
                 }
@@ -1521,12 +1520,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.HeadTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.HeadTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.HeadTattoos.Add(tat);
                     }
                 }
@@ -1536,12 +1535,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.TorsoTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.TorsoTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.TorsoTattoos.Add(tat);
                     }
                 }
@@ -1551,12 +1550,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.LeftArmTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.LeftArmTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.LeftArmTattoos.Add(tat);
                     }
                 }
@@ -1566,12 +1565,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.RightArmTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.RightArmTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.RightArmTattoos.Add(tat);
                     }
                 }
@@ -1581,12 +1580,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.LeftLegTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.LeftLegTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.LeftLegTattoos.Add(tat);
                     }
                 }
@@ -1596,12 +1595,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.RightLegTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.RightLegTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.RightLegTattoos.Add(tat);
                     }
                 }
@@ -1611,12 +1610,12 @@ namespace vCharClient
                     KeyValuePair<string, string> tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.BadgeTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~r~removed~s~.");
+                        //Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~r~removed~s~.");
                         currentCharacter.PedTatttoos.BadgeTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~g~added~s~.");
+                        //Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~g~added~s~.");
                         currentCharacter.PedTatttoos.BadgeTattoos.Add(tat);
                     }
                 }
@@ -1628,7 +1627,7 @@ namespace vCharClient
             // eventhandler for when a tattoo is selected.
             tattoosMenu.OnItemSelect += (sender, item, index) =>
             {
-                Notify.Success("All tattoos have been removed.");
+                //Notify.Success("All tattoos have been removed.");
                 currentCharacter.PedTatttoos.HeadTattoos.Clear();
                 currentCharacter.PedTatttoos.TorsoTattoos.Clear();
                 currentCharacter.PedTatttoos.LeftArmTattoos.Clear();
@@ -1742,9 +1741,7 @@ namespace vCharClient
                     int health = Game.PlayerPed.Health;
                     int armour = Game.PlayerPed.Armor;
 
-                    SaveWeaponLoadout("vmenu_temp_weapons_loadout_before_respawn");
                     SetPlayerModel(Game.Player.Handle, model);
-                    await SpawnWeaponLoadoutAsync("vmenu_temp_weapons_loadout_before_respawn", false, true, true);
 
                     Game.Player.MaxArmor = maxArmour;
                     Game.PlayerPed.MaxHealth = maxHealth;
@@ -1778,9 +1775,7 @@ namespace vCharClient
                     int health = Game.PlayerPed.Health;
                     int armour = Game.PlayerPed.Armor;
 
-                    SaveWeaponLoadout("vmenu_temp_weapons_loadout_before_respawn");
                     SetPlayerModel(Game.Player.Handle, model);
-                    await SpawnWeaponLoadoutAsync("vmenu_temp_weapons_loadout_before_respawn", false, true, true);
 
                     Game.Player.MaxArmor = maxArmour;
                     Game.PlayerPed.MaxHealth = maxHealth;
@@ -1796,10 +1791,6 @@ namespace vCharClient
 
                     MakeCreateCharacterMenu(male: false);
                 }
-                //else if (item == savedCharacters)
-                //{
-                //    UpdateSavedPedsMenu();
-                //}
             };
         }
 
@@ -1839,9 +1830,7 @@ namespace vCharClient
                 int health = Game.PlayerPed.Health;
                 int armour = Game.PlayerPed.Armor;
 
-                SaveWeaponLoadout("vmenu_temp_weapons_loadout_before_respawn");
                 SetPlayerModel(Game.Player.Handle, currentCharacter.ModelHash);
-                await SpawnWeaponLoadoutAsync("vmenu_temp_weapons_loadout_before_respawn", false, true, true);
 
                 Game.Player.MaxArmor = maxArmour;
                 Game.PlayerPed.MaxHealth = maxHealth;
@@ -2016,209 +2005,7 @@ namespace vCharClient
             // Set the facial expression, or set it to 'normal' if it wasn't saved/set before.
             SetFacialIdleAnimOverride(Game.PlayerPed.Handle, currentCharacter.FacialExpression ?? facial_expressions[0], null);
         }
-
-        /// <summary>
-        /// Creates the saved mp characters menu.
-        /// </summary>
-        private void CreateSavedPedsMenu()
-        {
-            UpdateSavedPedsMenu();
-
-            MenuController.AddMenu(manageSavedCharacterMenu);
-
-            MenuItem spawnPed = new MenuItem("Spawn Saved Character", "Spawns the selected saved character.");
-            editPedBtn = new MenuItem("Edit Saved Character", "This allows you to edit everything about your saved character. The changes will be saved to this character's save file entry once you hit the save button.");
-            MenuItem clonePed = new MenuItem("Clone Saved Character", "This will make a clone of your saved character. It will ask you to provide a name for that character. If that name is already taken the action will be canceled.");
-            MenuItem setAsDefaultPed = new MenuItem("Set As Default Character", "If you set this character as your default character, and you enable the 'Respawn As Default MP Character' option in the Misc Settings menu, then you will be set as this character whenever you (re)spawn.");
-            MenuItem renameCharacter = new MenuItem("Rename Saved Character", "You can rename this saved character. If the name is already taken then the action will be canceled.");
-            MenuItem delPed = new MenuItem("Delete Saved Character", "Deletes the selected saved character. This can not be undone!")
-            {
-                LeftIcon = MenuItem.Icon.WARNING
-            };
-            manageSavedCharacterMenu.AddMenuItem(spawnPed);
-            manageSavedCharacterMenu.AddMenuItem(editPedBtn);
-            manageSavedCharacterMenu.AddMenuItem(clonePed);
-            manageSavedCharacterMenu.AddMenuItem(setAsDefaultPed);
-            manageSavedCharacterMenu.AddMenuItem(renameCharacter);
-            manageSavedCharacterMenu.AddMenuItem(delPed);
-
-            MenuController.BindMenuItem(manageSavedCharacterMenu, createCharacterMenu, editPedBtn);
-
-            manageSavedCharacterMenu.OnItemSelect += async (sender, item, index) =>
-            {
-                if (item == editPedBtn)
-                {
-                    currentCharacter = StorageManager.GetSavedMpCharacterData(selectedSavedCharacterManageName);
-
-                    await SpawnSavedPed(true);
-
-                    MakeCreateCharacterMenu(male: currentCharacter.IsMale, editPed: true);
-                }
-                else if (item == spawnPed)
-                {
-                    currentCharacter = StorageManager.GetSavedMpCharacterData(selectedSavedCharacterManageName);
-
-                    await SpawnSavedPed(true);
-                }
-                else if (item == clonePed)
-                {
-                    var tmpCharacter = StorageManager.GetSavedMpCharacterData("mp_ped_" + selectedSavedCharacterManageName);
-                    string name = await GetUserInput(windowTitle: "Enter a name for the cloned character", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
-                    if (string.IsNullOrEmpty(name))
-                    {
-                        Notify.Error(CommonErrors.InvalidSaveName);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(GetResourceKvpString("mp_ped_" + name)))
-                        {
-                            Notify.Error(CommonErrors.SaveNameAlreadyExists);
-                        }
-                        else
-                        {
-                            tmpCharacter.SaveName = "mp_ped_" + name;
-                            if (StorageManager.SaveJsonData("mp_ped_" + name, JsonConvert.SerializeObject(tmpCharacter), false))
-                            {
-                                Notify.Success($"Your character has been cloned. The name of the cloned character is: ~g~<C>{name}</C>~s~.");
-                                UpdateSavedPedsMenu();
-                            }
-                            else
-                            {
-                                Notify.Error("The clone could not be created, reason unknown. Does a character already exist with that name? :(");
-                            }
-                        }
-                    }
-                }
-                else if (item == renameCharacter)
-                {
-                    var tmpCharacter = StorageManager.GetSavedMpCharacterData("mp_ped_" + selectedSavedCharacterManageName);
-                    string name = await GetUserInput(windowTitle: "Enter a new character name", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
-                    if (string.IsNullOrEmpty(name))
-                    {
-                        Notify.Error(CommonErrors.InvalidInput);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(GetResourceKvpString("mp_ped_" + name)))
-                        {
-                            Notify.Error(CommonErrors.SaveNameAlreadyExists);
-                        }
-                        else
-                        {
-                            tmpCharacter.SaveName = "mp_ped_" + name;
-                            if (StorageManager.SaveJsonData("mp_ped_" + name, JsonConvert.SerializeObject(tmpCharacter), false))
-                            {
-                                StorageManager.DeleteSavedStorageItem("mp_ped_" + selectedSavedCharacterManageName);
-                                Notify.Success($"Your character has been renamed to ~g~<C>{name}</C>~s~.");
-                                UpdateSavedPedsMenu();
-                                while (!MenuController.IsAnyMenuOpen())
-                                {
-                                    await BaseScript.Delay(0);
-                                }
-                                manageSavedCharacterMenu.GoBack();
-                            }
-                            else
-                            {
-                                Notify.Error("Something went wrong while renaming your character, your old character will NOT be deleted because of this.");
-                            }
-                        }
-                    }
-                }
-                else if (item == delPed)
-                {
-                    if (delPed.Label == "Are you sure?")
-                    {
-                        delPed.Label = "";
-                        DeleteResourceKvp("mp_ped_" + selectedSavedCharacterManageName);
-                        Notify.Success("Your saved character has been deleted.");
-                        manageSavedCharacterMenu.GoBack();
-                        UpdateSavedPedsMenu();
-                        manageSavedCharacterMenu.RefreshIndex();
-                    }
-                    else
-                    {
-                        delPed.Label = "Are you sure?";
-                    }
-                }
-                else if (item == setAsDefaultPed)
-                {
-                    Notify.Success($"Your character <C>{selectedSavedCharacterManageName}</C> will now be used as your default character whenever you (re)spawn.");
-                    SetResourceKvp("vmenu_default_character", "mp_ped_" + selectedSavedCharacterManageName);
-                }
-
-                if (item != delPed)
-                {
-                    if (delPed.Label == "Are you sure?")
-                    {
-                        delPed.Label = "";
-                    }
-                }
-            };
-
-            // reset the "are you sure" state.
-            manageSavedCharacterMenu.OnMenuClose += (sender) =>
-            {
-                manageSavedCharacterMenu.GetMenuItems()[2].Label = "";
-            };
-
-            //savedCharactersMenu.OnItemSelect += (sender, item, index) =>
-            //{
-            //    selectedSavedCharacterManageName = item.Text;
-            //    manageSavedCharacterMenu.MenuSubtitle = item.Text;
-            //    manageSavedCharacterMenu.CounterPreText = $"{(item.Label.Substring(0, 3) == "(M)" ? "(Male) " : "(Female) ")}";
-            //    manageSavedCharacterMenu.RefreshIndex();
-            //};
-        }
-
-        /// <summary>
-        /// Updates the saved peds menu.
-        /// </summary>
-        private void UpdateSavedPedsMenu()
-        {
-            string defaultChar = GetResourceKvpString("vmenu_default_character") ?? "";
-
-            List<string> names = new List<string>();
-            var handle = StartFindKvp("mp_ped_");
-            while (true)
-            {
-                string foundName = FindKvp(handle);
-                if (string.IsNullOrEmpty(foundName))
-                {
-                    break;
-                }
-                else
-                {
-                    names.Add(foundName.Substring(7));
-                }
-            }
-            EndFindKvp(handle);
-            //savedCharactersMenu.ClearMenuItems();
-            if (names.Count > 0)
-            {
-                names.Sort((a, b) => { return a.ToLower().CompareTo(b.ToLower()); });
-                foreach (string item in names)
-                {
-                    var tmpData = StorageManager.GetSavedMpCharacterData("mp_ped_" + item);
-                    MenuItem btn = new MenuItem(item, "Click to spawn, edit, clone, rename or delete this saved character.")
-                    {
-                        Label = $"({(tmpData.IsMale ? "M" : "F")}) →→→"
-                    };
-                    if (defaultChar == "mp_ped_" + item)
-                    {
-                        btn.LeftIcon = MenuItem.Icon.TICK;
-                        btn.Description += " ~g~This character is currently set as your default character and will be used whenever you (re)spawn.";
-                    }
-                    //savedCharactersMenu.AddMenuItem(btn);
-                    //MenuController.BindMenuItem(savedCharactersMenu, manageSavedCharacterMenu, btn);
-                }
-            }
-            //savedCharactersMenu.RefreshIndex();
-        }
-
-        /// <summary>
-        /// Create the menu if it doesn't exist, and then returns it.
-        /// </summary>
-        /// <returns>The Menu</returns>
+        
         public Menu GetMenu()
         {
             if (menu == null)

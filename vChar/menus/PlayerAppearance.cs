@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MenuAPI;
-using Newtonsoft.Json;
 using CitizenFX.Core;
-using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
 using static vCharClient.CommonFunctions;
-using static vCharShared.PermissionsManager;
 
 namespace vCharClient
 {
@@ -90,14 +85,9 @@ namespace vCharClient
             menu.AddMenuItem(walkingStyle);
             menu.AddMenuItem(clothingGlowType);
 
-            if (IsAllowed(Permission.PACustomize))
-            {
-                MenuController.BindMenuItem(menu, pedCustomizationMenu, pedCustomization);
-            }
-            else
-            {
-                menu.RemoveMenuItem(pedCustomization);
-            }
+            
+            MenuController.BindMenuItem(menu, pedCustomizationMenu, pedCustomization);
+            
 
             // always allowed
             MenuController.BindMenuItem(menu, savedPedsMenu, savedPedsBtn);
@@ -110,13 +100,6 @@ namespace vCharClient
             MenuItem renameSavedPed = new MenuItem("Rename Saved Ped", "Rename this saved ped.") { LeftIcon = MenuItem.Icon.WARNING };
             MenuItem replaceSavedPed = new MenuItem("~r~Replace Saved Ped", "Repalce this saved ped with your current ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
             MenuItem deleteSavedPed = new MenuItem("~r~Delete Saved Ped", "Delete this saved ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
-
-            if (!IsAllowed(Permission.PASpawnSaved))
-            {
-                spawnSavedPed.Enabled = false;
-                spawnSavedPed.RightIcon = MenuItem.Icon.LOCK;
-                spawnSavedPed.Description = "You are not allowed to spawn saved peds.";
-            }
 
             selectedSavedPedMenu.AddMenuItem(spawnSavedPed);
             selectedSavedPedMenu.AddMenuItem(cloneSavedPed);
@@ -137,23 +120,23 @@ namespace vCharClient
                     string name = await GetUserInput($"Enter a clone name ({savedPed.Key.Substring(4)})", savedPed.Key.Substring(4), 30);
                     if (string.IsNullOrEmpty(name))
                     {
-                        Notify.Error(CommonErrors.InvalidSaveName);
+                        //Notify.Error(CommonErrors.InvalidSaveName);
                     }
                     else
                     {
                         if (!string.IsNullOrEmpty(GetResourceKvpString($"ped_{name}")))
                         {
-                            Notify.Error(CommonErrors.SaveNameAlreadyExists);
+                            //Notify.Error(CommonErrors.SaveNameAlreadyExists);
                         }
                         else
                         {
                             if (StorageManager.SavePedInfo("ped_" + name, savedPed.Value, false))
                             {
-                                Notify.Success($"Saved Ped has successfully been cloned. Clone name: ~g~<C>{name}</C>~s~.");
+                                //Notify.Success($"Saved Ped has successfully been cloned. Clone name: ~g~<C>{name}</C>~s~.");
                             }
                             else
                             {
-                                Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your cloned ped. Don't worry, your original ped is unharmed.");
+                                //Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your cloned ped. Don't worry, your original ped is unharmed.");
                             }
                         }
                     }
@@ -163,25 +146,25 @@ namespace vCharClient
                     string name = await GetUserInput($"Enter a new name for: {savedPed.Key.Substring(4)}", savedPed.Key.Substring(4), 30);
                     if (string.IsNullOrEmpty(name))
                     {
-                        Notify.Error(CommonErrors.InvalidSaveName);
+                        //Notify.Error(CommonErrors.InvalidSaveName);
                     }
                     else
                     {
                         if ("ped_" + name == savedPed.Key)
                         {
-                            Notify.Error("You need to choose a different name, you can't use the same name as your existing ped.");
+                            //Notify.Error("You need to choose a different name, you can't use the same name as your existing ped.");
                             return;
                         }
                         if (StorageManager.SavePedInfo("ped_" + name, savedPed.Value, false))
                         {
-                            Notify.Success($"Saved Ped has successfully been renamed. New ped name: ~g~<C>{name}</C>~s~.");
+                            //Notify.Success($"Saved Ped has successfully been renamed. New ped name: ~g~<C>{name}</C>~s~.");
                             DeleteResourceKvp(savedPed.Key);
                             selectedSavedPedMenu.MenuSubtitle = name;
                             savedPed = new KeyValuePair<string, PedInfo>("ped_" + name, savedPed.Value);
                         }
                         else
                         {
-                            Notify.Error(CommonErrors.SaveNameAlreadyExists);
+                            //Notify.Error(CommonErrors.SaveNameAlreadyExists);
                         }
                     }
                 }
@@ -193,11 +176,11 @@ namespace vCharClient
                         bool success = await SavePed(savedPed.Key.Substring(4), overrideExistingPed: true);
                         if (!success)
                         {
-                            Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your replaced ped. Don't worry, your original ped is unharmed.");
+                            //Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your replaced ped. Don't worry, your original ped is unharmed.");
                         }
                         else
                         {
-                            Notify.Success("Your saved ped has successfully been replaced.");
+                            //Notify.Success("Your saved ped has successfully been replaced.");
                             savedPed = new KeyValuePair<string, PedInfo>(savedPed.Key, StorageManager.GetSavedPedInfo(savedPed.Key));
                         }
                     }
@@ -211,7 +194,7 @@ namespace vCharClient
                     if (item.Label == "Are you sure?")
                     {
                         DeleteResourceKvp(savedPed.Key);
-                        Notify.Success("Your saved ped has been deleted.");
+                        //Notify.Success("Your saved ped has been deleted.");
                         selectedSavedPedMenu.GoBack();
                     }
                     else
@@ -296,7 +279,7 @@ namespace vCharClient
                 selectedSavedPedMenu.MenuSubtitle = item.Text;
             };
 
-            if (AddonPeds != null && AddonPeds.Count > 0 && IsAllowed(Permission.PAAddonPeds))
+            if (AddonPeds != null && AddonPeds.Count > 0 && true)
             {
                 spawnPedsMenu.AddMenuItem(addonPedsBtn);
                 MenuController.BindMenuItem(spawnPedsMenu, addonPedsMenu, addonPedsBtn);
@@ -331,7 +314,7 @@ namespace vCharClient
                 };
             }
 
-            if (IsAllowed(Permission.PASpawnNew))
+            if (true)
             {
                 spawnPedsMenu.AddMenuItem(spawnByNameBtn);
                 spawnPedsMenu.AddMenuItem(mainPedsBtn);
@@ -392,12 +375,12 @@ namespace vCharClient
                     if (!string.IsNullOrEmpty(input))
                     {
                         m.FilterMenuItems((mb) => mb.Label.ToLower().Contains(input.ToLower()) || mb.Text.ToLower().Contains(input.ToLower()));
-                        Subtitle.Custom("Filter applied.");
+                        //Subtitle.Custom("Filter applied.");
                     }
                     else
                     {
                         m.ResetFilter();
-                        Subtitle.Custom("Filter cleared.");
+                        //Subtitle.Custom("Filter cleared.");
                     }
                 }
 
@@ -434,7 +417,7 @@ namespace vCharClient
                             case "a_c_killerwhale":
                             case "a_c_sharkhammer":
                             case "a_c_sharktiger":
-                                Notify.Error("This animal can only be spawned when you are in water, otherwise you will die immediately.");
+                                //Notify.Error("This animal can only be spawned when you are in water, otherwise you will die immediately.");
                                 return;
                             default: break;
                         }
@@ -462,7 +445,7 @@ namespace vCharClient
                     }
                     else
                     {
-                        Notify.Error(CommonErrors.InvalidModel);
+                        //Notify.Error(CommonErrors.InvalidModel);
                     }
                 }
 
@@ -483,7 +466,7 @@ namespace vCharClient
                         }
                         else
                         {
-                            Notify.Error(CommonErrors.InvalidInput);
+                            //Notify.Error(CommonErrors.InvalidInput);
                         }
                     }
                 };
@@ -515,11 +498,11 @@ namespace vCharClient
                 {
                     if (await SavePed())
                     {
-                        Notify.Success("Successfully saved your new ped.");
+                        //Notify.Success("Successfully saved your new ped.");
                     }
                     else
                     {
-                        Notify.Error("Could not save your current ped, does that save name already exist?");
+                        //Notify.Error("Could not save your current ped, does that save name already exist?");
                     }
                 }
             };
